@@ -14,12 +14,17 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@rushstack/eslint-config": "^3.7.1",
+    "@rushstack/eslint-patch": "^1.10.4",
+    "@tanstack/eslint-plugin-query": "^5.51.15",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "@typescript-eslint/parser": "^7.15.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "eslint": "8.57.0",
+    "eslint-plugin-jsx-a11y": "^6.9.0",
+    "eslint-plugin-no-relative-import-paths": "^1.5.5",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
