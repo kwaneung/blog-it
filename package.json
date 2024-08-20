@@ -42,5 +42,6 @@
       "prettier --write",
       "eslint --fix"
     ]
-  }
+  },
+  "sideEffects": false
 }
