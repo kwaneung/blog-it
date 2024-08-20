@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "analyze": "ANALYZE=true pnpm build"
   },
   "dependencies": {
     "next": "14.2.5",
@@ -15,6 +16,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^14.2.5",
     "@rushstack/eslint-config": "^4.0.1",
     "@rushstack/eslint-patch": "^1.10.4",
     "@tanstack/eslint-plugin-query": "^5.51.15",
