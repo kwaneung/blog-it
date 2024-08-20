@@ -20,7 +20,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@components": ["./src/components"],
-      "@constatns": ["./src/constatns"],
+      "@constants": ["./src/constants"],
       "@container": ["./src/container"],
       "@hooks": ["./src/hooks"],
       "@service": ["./src/service"],
