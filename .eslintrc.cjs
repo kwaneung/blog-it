@@ -34,6 +34,19 @@ module.exports = {
     'react/no-unknown-property': 'off',
     // 정의한 props 중에 빠진게 있는지 체크 (NextPage 등 일부 추상화 컴포넌트에서 복잡해지므로 기본은 off)
     'react/prop-types': 'off',
+
+    // 근거: 타입 추론으로 충분한 곳에 타이핑을 강요함
+    '@rushstack/typedef-var': 'off',
+    // 근거: React 컴포넌트의 경우 17 이하에서는 `undefined`가 아닌
+    //      `null`을 리턴할 수 있기 때문에 사용하지 않음
+    '@rushstack/no-new-null': 'off',
+    // 근거: 상황에 따라 리턴 타입을 타입 추론에 맡기는 것이 나을수도 있음
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    // 근거: 문서에 의하면 클래스를 많이 사용하는 프로젝트에서 사용할 수 있으나,
+    //       팀 내 개발 패턴은 함수형을 지향하므로 불필요함
+    '@typescript-eslint/explicit-member-accessibility': 'off',
+    // 근거: useEffect 안에서 await 사용 불가
+    '@typescript-eslint/no-floating-promises': 'off',
   },
   settings: {
     react: {
