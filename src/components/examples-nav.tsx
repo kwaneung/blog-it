@@ -7,70 +7,65 @@ import { ArrowRightIcon } from '@radix-ui/react-icons';
 import { cn } from '@/lib/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
-const examples = [
-  {
-    name: 'Mail',
-    href: '/examples/mail',
-    code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/mail',
-  },
+const homeTabsInfo = [
   {
     name: 'Dashboard',
-    href: '/examples/dashboard',
+    href: '/dashboard',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/dashboard',
   },
   {
     name: 'Cards',
-    href: '/examples/cards',
+    href: '/cards',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/cards',
   },
   {
     name: 'Tasks',
-    href: '/examples/tasks',
+    href: '/tasks',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/tasks',
   },
   {
     name: 'Playground',
-    href: '/examples/playground',
+    href: '/playground',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/playground',
   },
   {
     name: 'Forms',
-    href: '/examples/forms',
+    href: '/forms',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/forms',
   },
   {
     name: 'Music',
-    href: '/examples/music',
+    href: '/music',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/music',
   },
   {
     name: 'Authentication',
-    href: '/examples/authentication',
+    href: '/authentication',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/authentication',
   },
 ];
 
-interface IExamplesNavProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface IHomeNavProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function ExamplesNav({ className, ...props }: IExamplesNavProps) {
+export function HomeNav({ className, ...props }: IHomeNavProps) {
   const pathname = usePathname();
 
   return (
     <div className="relative">
       <ScrollArea className="max-w-[600px] lg:max-w-none">
         <div className={cn('mb-4 flex items-center', className)} {...props}>
-          {examples.map((example, index) => (
+          {homeTabsInfo.map((tab, index) => (
             <Link
-              href={example.href}
-              key={example.href}
+              href={tab.href}
+              key={tab.href}
               className={cn(
                 'flex h-7 items-center justify-center rounded-full px-4 text-center text-sm transition-colors hover:text-primary',
-                pathname?.startsWith(example.href) || (index === 0 && pathname === '/')
+                pathname?.startsWith(tab.href) || (index === 0 && pathname === '/')
                   ? 'bg-muted font-medium text-primary'
                   : 'text-muted-foreground',
               )}
             >
-              {example.name}
+              {tab.name}
             </Link>
           ))}
         </div>
@@ -80,20 +75,20 @@ export function ExamplesNav({ className, ...props }: IExamplesNavProps) {
   );
 }
 
-interface IExampleCodeLinkProps {
+interface ITabCodeLinkProps {
   pathname: string | undefined;
 }
 
-export function ExampleCodeLink({ pathname }: IExampleCodeLinkProps) {
-  const example = examples.find((example) => pathname?.startsWith(example.href));
+export function ExampleCodeLink({ pathname }: ITabCodeLinkProps) {
+  const tab = homeTabsInfo.find((tab) => pathname?.startsWith(tab.href));
 
-  if (!example?.code) {
+  if (!tab?.code) {
     return null;
   }
 
   return (
     <Link
-      href={example?.code}
+      href={tab?.code}
       target="_blank"
       rel="nofollow"
       className="absolute right-0 top-0 hidden items-center rounded-[0.5rem] text-sm font-medium md:flex"
