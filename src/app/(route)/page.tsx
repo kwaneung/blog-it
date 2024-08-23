@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { siteConfig } from '@/config/site';
 import { Announcement } from '@/components/announcement';
-import { ExamplesNav } from '@/components/examples-nav';
+import { HomeNav } from '@/components/examples-nav';
 import {
   PageActions,
   PageHeader,
@@ -11,6 +11,7 @@ import {
   PageHeaderHeading,
 } from '@/components/page-header';
 import { Button } from '@/components/ui/button';
+import Dashboard from './dashboard/page';
 // import MailPage from '@/app/(app)/examples/mail/page';
 
 export default function IndexPage() {
@@ -33,7 +34,7 @@ export default function IndexPage() {
           </Button>
         </PageActions>
       </PageHeader>
-      <ExamplesNav className="[&>a:first-child]:text-primary" />
+      <HomeNav className="[&>a:first-child]:text-primary" />
       <section className="overflow-hidden rounded-lg border bg-background shadow-md md:hidden md:shadow-xl">
         <Image
           src="/pngs/mail-dark.png"
@@ -52,7 +53,7 @@ export default function IndexPage() {
       </section>
       <section className="hidden md:block">
         <div className="overflow-hidden rounded-lg border bg-background shadow">
-          {/* <MailPage /> */}
+          <Dashboard />
         </div>
       </section>
     </div>
