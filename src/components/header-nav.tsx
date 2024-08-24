@@ -21,71 +21,37 @@ export function HeaderNav() {
           href="/"
           className={cn(
             'transition-colors hover:text-foreground/80',
-            ['/', '/dashboard', '/posts', '/questions'].includes(pathname) || pathname === '/'
-              ? 'text-foreground'
-              : 'text-foreground/60',
+            pathname === '/' ? 'text-foreground' : 'text-foreground/60',
           )}
         >
           Home
         </Link>
         <Link
-          href="/docs/components"
+          href="/posts"
           className={cn(
             'transition-colors hover:text-foreground/80',
-            pathname?.startsWith('/docs/components') &&
-              !pathname?.startsWith('/docs/component/chart')
-              ? 'text-foreground'
-              : 'text-foreground/60',
+            pathname?.startsWith('/posts') ? 'text-foreground' : 'text-foreground/60',
           )}
         >
-          Components
+          Posts
         </Link>
         <Link
-          href="/blocks"
+          href="/questions"
           className={cn(
             'transition-colors hover:text-foreground/80',
-            pathname?.startsWith('/blocks') ? 'text-foreground' : 'text-foreground/60',
+            pathname?.startsWith('/questions') ? 'text-foreground' : 'text-foreground/60',
           )}
         >
-          Blocks
+          Questions
         </Link>
         <Link
-          href="/charts"
+          href="/settings"
           className={cn(
             'transition-colors hover:text-foreground/80',
-            pathname?.startsWith('/docs/component/chart') || pathname?.startsWith('/charts')
-              ? 'text-foreground'
-              : 'text-foreground/60',
+            pathname?.startsWith('/settings') ? 'text-foreground' : 'text-foreground/60',
           )}
         >
-          Charts
-        </Link>
-        <Link
-          href="/themes"
-          className={cn(
-            'transition-colors hover:text-foreground/80',
-            pathname?.startsWith('/themes') ? 'text-foreground' : 'text-foreground/60',
-          )}
-        >
-          Themes
-        </Link>
-        <Link
-          href="/examples"
-          className={cn(
-            'transition-colors hover:text-foreground/80',
-            pathname?.startsWith('/examples') ? 'text-foreground' : 'text-foreground/60',
-          )}
-        >
-          Examples
-        </Link>
-        <Link
-          href="/colors"
-          className={cn(
-            'transition-colors hover:text-foreground/80',
-            pathname?.startsWith('/colors') ? 'text-foreground' : 'text-foreground/60',
-          )}
-        >
-          Colors
+          Settings
         </Link>
       </nav>
     </div>

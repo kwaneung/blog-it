@@ -42,9 +42,9 @@ export default function RootLayout({ children }: IRootLayoutProps) {
               <div className="relative flex min-h-screen flex-col bg-background">
                 <>
                   <SiteHeader />
-                  <main className="flex-1">
-                    <div className="container relative">
-                      <PageHeader>
+                  {/* <main className="flex-1"> */}
+                  {/* <div className="container relative"> */}
+                  {/* <PageHeader>
                         <Announcement />
                         <PageHeaderHeading className="hidden md:block">
                           Check out some examples
@@ -65,15 +65,15 @@ export default function RootLayout({ children }: IRootLayoutProps) {
                             Components
                           </Link>
                         </PageActions>
-                      </PageHeader>
-                      <section>
-                        <HomeNav />
-                        <div className="overflow-hidden rounded-[0.5rem] border bg-background shadow">
-                          {children}
-                        </div>
-                      </section>
-                    </div>
-                  </main>
+                      </PageHeader> */}
+                  {/* <section> */}
+                  {/* <HomeNav /> */}
+                  {/* <div className="overflow-hidden rounded-[0.5rem] border bg-background shadow"> */}
+                  {children}
+                  {/* </div> */}
+                  {/* </section> */}
+                  {/* </div> */}
+                  {/* </main> */}
                   <SiteFooter />
                 </>
               </div>

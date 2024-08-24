@@ -9,32 +9,20 @@ export interface IDocsConfig {
 export const docsConfig: IDocsConfig = {
   mainNav: [
     {
-      title: 'Documentation',
-      href: '/docs',
+      title: 'Home',
+      href: '/',
     },
     {
-      title: 'Components',
-      href: '/docs/components/accordion',
+      title: 'Posts',
+      href: '/posts',
     },
     {
-      title: 'Blocks',
-      href: '/blocks',
+      title: 'Questions',
+      href: '/questions',
     },
     {
-      title: 'Charts',
-      href: '/charts',
-    },
-    {
-      title: 'Themes',
-      href: '/themes',
-    },
-    {
-      title: 'Examples',
-      href: '/examples',
-    },
-    {
-      title: 'Colors',
-      href: '/colors',
+      title: 'Settings',
+      href: '/settings',
     },
   ],
   sidebarNav: [
