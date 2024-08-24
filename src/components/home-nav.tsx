@@ -14,35 +14,35 @@ const homeTabsInfo = [
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/dashboard',
   },
   {
-    name: 'Cards',
-    href: '/cards',
+    name: 'Posts',
+    href: '/posts',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/cards',
   },
   {
-    name: 'Tasks',
-    href: '/tasks',
+    name: 'Questions',
+    href: '/questions',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/tasks',
   },
-  {
-    name: 'Playground',
-    href: '/playground',
-    code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/playground',
-  },
-  {
-    name: 'Forms',
-    href: '/forms',
-    code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/forms',
-  },
-  {
-    name: 'Music',
-    href: '/music',
-    code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/music',
-  },
-  {
-    name: 'Authentication',
-    href: '/authentication',
-    code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/authentication',
-  },
+  // {
+  //   name: 'Playground',
+  //   href: '/playground',
+  //   code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/playground',
+  // },
+  // {
+  //   name: 'Forms',
+  //   href: '/forms',
+  //   code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/forms',
+  // },
+  // {
+  //   name: 'Music',
+  //   href: '/music',
+  //   code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/music',
+  // },
+  // {
+  //   name: 'Authentication',
+  //   href: '/authentication',
+  //   code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/authentication',
+  // },
 ];
 
 interface IHomeNavProps extends React.HTMLAttributes<HTMLDivElement> {}

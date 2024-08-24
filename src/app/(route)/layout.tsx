@@ -20,7 +20,7 @@ import {
 import { Announcement } from '@/components/announcement';
 import { buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
-import { HomeNav } from '@/components/examples-nav';
+import { HomeNav } from '@/components/home-nav';
 
 interface IRootLayoutProps {
   children: React.ReactNode;

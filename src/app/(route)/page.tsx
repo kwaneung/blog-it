@@ -1,4 +1,4 @@
-import Dashboard from './dashboard/page';
+import Dashboard from './(home)/dashboard/page';
 
 export default function IndexPage() {
   return <Dashboard />;
