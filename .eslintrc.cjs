@@ -56,6 +56,14 @@ module.exports = {
       version: 'detect',
     },
   },
+  overrides: [
+    {
+      files: ['next.config.mjs', 'postcss.config.mjs'],
+      parserOptions: {
+        sourceType: 'module',
+      },
+    },
+  ],
   parserOptions: {
     project: true,
     tsconfigRootDir: __dirname,
