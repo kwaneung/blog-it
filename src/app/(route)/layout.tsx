@@ -1,26 +1,13 @@
 import './globals.css';
 import { fontSans } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
-// import { Analytics } from '@/components/analytics';
 import { ThemeProvider } from '@/components/providers';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { Toaster as DefaultToaster } from '@/components/ui/toaster';
-// import { Toaster as NewYorkSonner } from '@/components/ui/sonner';
-// import { Toaster as NewYorkToaster } from '@/components/ui/toaster';
 
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
-import {
-  PageActions,
-  PageHeader,
-  PageHeaderDescription,
-  PageHeaderHeading,
-} from '@/components/page-header';
-import { Announcement } from '@/components/announcement';
-import { buttonVariants } from '@/components/ui/button';
-import Link from 'next/link';
-import { HomeNav } from '@/components/home-nav';
 
 interface IRootLayoutProps {
   children: React.ReactNode;
