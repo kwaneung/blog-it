@@ -52,6 +52,7 @@ export function DataTableToolbar<TData>({ table }: IDataTableToolbarProps<TData>
         )}
       </div>
       <DataTableViewOptions table={table} />
+      <Button className="ml-2 h-8">create</Button>
     </div>
   );
 }
