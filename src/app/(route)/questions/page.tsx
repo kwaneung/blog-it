@@ -3,10 +3,10 @@ import path from 'path';
 import { Metadata } from 'next';
 import { z } from 'zod';
 
-import { columns } from './components/columns';
-import { DataTable } from './components/data-table';
-import { UserNav } from './components/user-nav';
-import { taskSchema } from './data/schema';
+import { columns } from './_components/columns';
+import { DataTable } from './_components/data-table';
+import { UserNav } from './_components/user-nav';
+import { taskSchema } from './_data/schema';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 // Simulate a database read for tasks.
 async function getTasks() {
   const data = await fs.readFile(
-    path.join(process.cwd(), 'src/app/(route)/questions/data/tasks.json'),
+    path.join(process.cwd(), 'src/app/(route)/questions/_data/tasks.json'),
   );
 
   const tasks = JSON.parse(data.toString());

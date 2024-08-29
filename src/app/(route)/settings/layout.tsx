@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import { Separator } from '@/components/ui/separator';
-import { SidebarNav } from './components/sidebar-nav';
+import { SidebarNav } from './_components/sidebar-nav';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
