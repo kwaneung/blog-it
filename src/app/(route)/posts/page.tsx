@@ -10,8 +10,8 @@ import { taskSchema } from './_data/schema';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
-  title: 'Tasks',
-  description: 'A task and issue tracker build using Tanstack Table.',
+  title: 'Posts',
+  description: '기본 글',
 };
 
 // Simulate a database read for tasks.

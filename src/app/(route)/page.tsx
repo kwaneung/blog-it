@@ -11,7 +11,7 @@ import { RecentSales } from './_components/recent-sales';
 // eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
   title: 'Dashboard',
-  description: 'Example dashboard app built using the components.',
+  description: '대쉬보드',
 };
 
 export default function Dashboard() {

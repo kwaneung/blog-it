@@ -5,8 +5,8 @@ import { SidebarNav } from './_components/sidebar-nav';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
-  title: 'Forms',
-  description: 'Advanced form example using react-hook-form and Zod.',
+  title: 'Settings',
+  description: '설정',
 };
 
 const sidebarNavItems = [
