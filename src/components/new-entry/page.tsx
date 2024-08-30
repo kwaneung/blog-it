@@ -19,7 +19,7 @@ import { TopPSelector } from './_components/top-p-selector';
 import { models, types } from './_data/models';
 import { presets } from './_data/presets';
 
-export default function NewEntry() {
+export default function NewArticle() {
   return (
     <>
       {/* <div className="md:hidden">

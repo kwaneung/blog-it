@@ -9,6 +9,7 @@ import { DataTableViewOptions } from './data-table-view-options';
 
 import { priorities, statuses } from '../_data/data';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
+import Link from 'next/link';
 
 interface IDataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -52,7 +53,9 @@ export function DataTableToolbar<TData>({ table }: IDataTableToolbarProps<TData>
         )}
       </div>
       <DataTableViewOptions table={table} />
-      <Button className="ml-2 h-8">create</Button>
+      <Link href="/questions/new">
+        <Button className="ml-2 h-8">create</Button>
+      </Link>
     </div>
   );
 }
