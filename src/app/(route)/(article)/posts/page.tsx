@@ -28,5 +28,9 @@ async function getTasks() {
 export default async function Posts() {
   const tasks = await getTasks();
 
-  return <DataTable data={tasks} columns={columns} />;
+  return (
+    <>
+      <DataTable data={tasks} columns={columns} />
+    </>
+  );
 }

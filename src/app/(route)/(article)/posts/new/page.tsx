@@ -3,10 +3,14 @@ import NewArticle from '@/components/new-entry/page';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
-  title: 'create question',
-  description: '질문 글쓰기',
+  title: 'create post',
+  description: '글쓰기',
 };
 
-export default function New() {
-  return <NewArticle />;
+interface IProps {
+  searchParams: { type: string };
+}
+
+export default function New({ searchParams }: IProps) {
+  return <NewArticle type={searchParams.type} />;
 }
