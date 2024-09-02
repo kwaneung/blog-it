@@ -24,7 +24,7 @@ async function getTasks() {
   return z.array(taskSchema).parse(tasks);
 }
 
-export default async function TaskPage() {
+export default async function Questions() {
   const tasks = await getTasks();
 
   return <DataTable data={tasks} columns={columns} />;
