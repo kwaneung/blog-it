@@ -14,11 +14,11 @@ export const docsConfig: IDocsConfig = {
     },
     {
       title: 'Posts',
-      href: '/posts',
+      href: '/posts?type=post',
     },
     {
       title: 'Questions',
-      href: '/questions',
+      href: '/questions?type=question',
     },
     {
       title: 'Settings',

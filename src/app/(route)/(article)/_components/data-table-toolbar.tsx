@@ -7,15 +7,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { DataTableViewOptions } from './data-table-view-options';
 
-import { priorities, statuses } from '../_data/data';
+import { priorities, statuses } from '../posts/_data/data';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
 import Link from 'next/link';
 
 interface IDataTableToolbarProps<TData> {
   table: Table<TData>;
+  type: string;
 }
 
-export function DataTableToolbar<TData>({ table }: IDataTableToolbarProps<TData>) {
+export function DataTableToolbar<TData>({ table, type }: IDataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
@@ -53,7 +54,7 @@ export function DataTableToolbar<TData>({ table }: IDataTableToolbarProps<TData>
         )}
       </div>
       <DataTableViewOptions table={table} />
-      <Link href="/posts/new?type=post">
+      <Link href={`/posts/new?type=${type}`}>
         <Button className="ml-2 h-8">create</Button>
       </Link>
     </div>

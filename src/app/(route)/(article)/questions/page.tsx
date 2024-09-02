@@ -3,8 +3,8 @@ import path from 'path';
 import { Metadata } from 'next';
 import { z } from 'zod';
 
-import { columns } from './_components/columns';
-import { DataTable } from './_components/data-table';
+import { columns } from '../_components/columns';
+import { DataTable } from '../_components/data-table';
 import { taskSchema } from './_data/schema';
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -24,8 +24,12 @@ async function getTasks() {
   return z.array(taskSchema).parse(tasks);
 }
 
-export default async function Questions() {
+interface IProps {
+  searchParams: { type: string };
+}
+
+export default async function Questions({ searchParams }: IProps) {
   const tasks = await getTasks();
 
-  return <DataTable data={tasks} columns={columns} />;
+  return <DataTable data={tasks} columns={columns} type={searchParams.type} />;
 }

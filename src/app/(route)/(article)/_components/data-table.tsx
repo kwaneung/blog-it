@@ -31,9 +31,10 @@ import { useState } from 'react';
 interface IDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  type: string;
 }
 
-export function DataTable<TData, TValue>({ columns, data }: IDataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, type }: IDataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -63,7 +64,7 @@ export function DataTable<TData, TValue>({ columns, data }: IDataTableProps<TDat
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} type={type} />
       <>
         <div className="rounded-md border">
           <Table>

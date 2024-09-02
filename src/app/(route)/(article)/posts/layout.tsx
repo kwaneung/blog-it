@@ -1,4 +1,4 @@
-import { UserNav } from './_components/user-nav';
+import { UserNav } from '../_components/user-nav';
 
 export default async function ArticleLayout({ children }: { children: React.ReactNode }) {
   return (
