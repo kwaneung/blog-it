@@ -1,5 +1,3 @@
-import { UserNav } from '../_components/user-nav';
-
 export default async function ArticleLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
@@ -8,9 +6,6 @@ export default async function ArticleLayout({ children }: { children: React.Reac
           <div>
             <h2 className="text-2xl font-bold tracking-tight">Posts</h2>
             <p className="text-muted-foreground">이곳에서 글을 쓰세요!</p>
-          </div>
-          <div className="flex items-center space-x-2">
-            <UserNav />
           </div>
         </div>
         {children}

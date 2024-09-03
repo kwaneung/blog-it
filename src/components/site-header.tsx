@@ -8,6 +8,7 @@ import { HeaderNav } from '@/components/header-nav';
 import { MobileNav } from '@/components/mobile-nav';
 import { ModeToggle } from '@/components/mode-toggle';
 import { buttonVariants } from '@/components/ui/button';
+import { UserNav } from './user-nav';
 
 export function SiteHeader() {
   return (
@@ -47,6 +48,7 @@ export function SiteHeader() {
               </div>
             </Link> */}
             <ModeToggle />
+            <UserNav />
           </nav>
         </div>
       </div>
