@@ -24,12 +24,8 @@ async function getTasks() {
   return z.array(taskSchema).parse(tasks);
 }
 
-interface IProps {
-  searchParams: { type: string };
-}
-
-export default async function Questions({ searchParams }: IProps) {
+export default async function Questions() {
   const tasks = await getTasks();
 
-  return <DataTable data={tasks} columns={columns} type={searchParams.type} />;
+  return <DataTable data={tasks} columns={columns} type={'question'} />;
 }

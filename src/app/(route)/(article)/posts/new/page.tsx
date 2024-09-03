@@ -7,10 +7,6 @@ export const metadata: Metadata = {
   description: '글쓰기',
 };
 
-interface IProps {
-  searchParams: { type: string };
-}
-
-export default function New({ searchParams }: IProps) {
-  return <NewArticle type={searchParams.type} />;
+export default function New() {
+  return <NewArticle type={'post'} />;
 }

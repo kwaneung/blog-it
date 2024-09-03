@@ -27,7 +27,7 @@ export function HeaderNav() {
           Home
         </Link>
         <Link
-          href="/posts?type=post"
+          href="/posts"
           className={cn(
             'transition-colors hover:text-foreground/80',
             pathname?.startsWith('/posts') ? 'text-foreground' : 'text-foreground/60',
@@ -36,7 +36,7 @@ export function HeaderNav() {
           Posts
         </Link>
         <Link
-          href="/questions?type=question"
+          href="/questions"
           className={cn(
             'transition-colors hover:text-foreground/80',
             pathname?.startsWith('/questions') ? 'text-foreground' : 'text-foreground/60',

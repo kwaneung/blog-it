@@ -54,7 +54,7 @@ export function DataTableToolbar<TData>({ table, type }: IDataTableToolbarProps<
         )}
       </div>
       <DataTableViewOptions table={table} />
-      <Link href={`/posts/new?type=${type}`}>
+      <Link href={`/${type}s/new`}>
         <Button className="ml-2 h-8">create</Button>
       </Link>
     </div>
