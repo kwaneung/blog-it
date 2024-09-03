@@ -7,10 +7,12 @@ import { Icons } from '@/components/icons';
 import { HeaderNav } from '@/components/header-nav';
 import { MobileNav } from '@/components/mobile-nav';
 import { ModeToggle } from '@/components/mode-toggle';
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { UserNav } from './user-nav';
 
 export function SiteHeader() {
+  const isLogin = false; // TODO 쿠키에 로그인 정보가 있는지로 판단
+
   return (
     <header className="sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 max-w-screen-2xl items-center">
@@ -34,21 +36,14 @@ export function SiteHeader() {
                 <span className="sr-only">GitHub</span>
               </div>
             </Link>
-            {/* <Link href={siteConfig.links.twitter} target="_blank" rel="noreferrer">
-              <div
-                className={cn(
-                  buttonVariants({
-                    variant: 'ghost',
-                  }),
-                  'h-8 w-8 px-0',
-                )}
-              >
-                <Icons.twitter className="h-3 w-3 fill-current" />
-                <span className="sr-only">Twitter</span>
-              </div>
-            </Link> */}
             <ModeToggle />
-            <UserNav />
+            {isLogin ? (
+              <UserNav />
+            ) : (
+              <Button className="h-8 ml-2" variant="outline">
+                로그인
+              </Button>
+            )}
           </nav>
         </div>
       </div>
