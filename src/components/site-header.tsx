@@ -74,7 +74,12 @@ export function SiteHeader() {
                       <Label htmlFor="username" className="text-right">
                         Password
                       </Label>
-                      <Input id="username" placeholder="Password" className="col-span-3" />
+                      <Input
+                        type="password"
+                        id="username"
+                        placeholder="Password"
+                        className="col-span-3"
+                      />
                     </div>
                   </div>
                   <DialogFooter>
