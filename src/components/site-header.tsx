@@ -83,6 +83,8 @@ export function SiteHeader() {
                     </div>
                   </div>
                   <DialogFooter>
+                    <Button type="submit">네이버로그인</Button>
+                    <Button type="submit">카카오로그인</Button>
                     <Button type="submit">Login</Button>
                   </DialogFooter>
                 </DialogContent>
