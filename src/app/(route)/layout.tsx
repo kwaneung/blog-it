@@ -8,6 +8,7 @@ import { Toaster as DefaultToaster } from '@/components/ui/toaster';
 
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
+import AuthSession from './_components/AuthSession';
 
 interface IRootLayoutProps {
   children: React.ReactNode;
@@ -28,9 +29,11 @@ export default function RootLayout({ children }: IRootLayoutProps) {
             <div vaul-drawer-wrapper="">
               <div className="relative flex min-h-screen flex-col bg-background">
                 <>
-                  <SiteHeader />
-                  {children}
-                  <SiteFooter />
+                  <AuthSession>
+                    <SiteHeader />
+                    {children}
+                    <SiteFooter />
+                  </AuthSession>
                 </>
               </div>
             </div>
