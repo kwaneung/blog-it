@@ -10,6 +10,8 @@ import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import AuthSession from './_components/AuthSession';
 
+import { app } from '@/firebase';
+
 interface IRootLayoutProps {
   children: React.ReactNode;
 }

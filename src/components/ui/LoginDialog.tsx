@@ -14,8 +14,47 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { useState } from 'react';
+
+import { auth } from '@/firebase';
+
 const LoginDialog = () => {
-  //   const { data: session } = useSession(); // TODO 로그인 정보 활용
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { data: session } = useSession(); // TODO 로그인 정보 활용
+
+  const handleSignin = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        alert(`${user} 회원가입 성공`);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(`[${errorCode}] ${errorMessage}`);
+        // ..
+      });
+  };
+
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        alert(`${user} 로그인 성공`);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(`[${errorCode}] ${errorMessage}`);
+      });
+  };
 
   return (
     <Dialog>
@@ -34,13 +73,24 @@ const LoginDialog = () => {
             <Label htmlFor="name" className="text-right">
               ID
             </Label>
-            <Input id="name" placeholder="ID" className="col-span-3" />
+            <Input
+              id="name"
+              placeholder="email 주소"
+              className="col-span-3"
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="username" className="text-right">
               Password
             </Label>
-            <Input type="password" id="username" placeholder="Password" className="col-span-3" />
+            <Input
+              type="password"
+              id="username"
+              placeholder="Password"
+              className="col-span-3"
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
         </div>
         <DialogFooter>
@@ -48,7 +98,12 @@ const LoginDialog = () => {
             네이버로그인
           </Button>
           {/* <Button type="submit">카카오로그인</Button> */}
-          <Button type="submit">Login</Button>
+          <Button type="submit" onClick={handleLogin}>
+            Login
+          </Button>
+          <Button type="submit" onClick={handleSignin}>
+            Sigin
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
