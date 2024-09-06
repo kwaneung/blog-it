@@ -25,6 +25,21 @@ const LoginDialog = () => {
 
   const { data: session } = useSession(); // TODO 로그인 정보 활용
 
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        alert(`${user} 로그인 성공`);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(`[${errorCode}] ${errorMessage}`);
+      });
+  };
+
   const handleSignin = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -41,19 +56,10 @@ const LoginDialog = () => {
       });
   };
 
-  const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        alert(`${user} 로그인 성공`);
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(`[${errorCode}] ${errorMessage}`);
-      });
+  const temp = () => {
+    const user = auth.currentUser;
+    console.log('user : ', user);
+    console.log(auth);
   };
 
   return (
@@ -98,6 +104,9 @@ const LoginDialog = () => {
             네이버로그인
           </Button>
           {/* <Button type="submit">카카오로그인</Button> */}
+          <Button type="submit" onClick={temp}>
+            로그인된 사용자 조회
+          </Button>
           <Button type="submit" onClick={handleLogin}>
             Login
           </Button>
