@@ -14,10 +14,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
-
-import { auth } from '@/firebase';
+import firebaseLogin from '@/service/firebase/login';
+import firebaseSignin from '@/service/firebase/signin';
 
 const LoginDialog = () => {
   const [email, setEmail] = useState('');
@@ -25,41 +24,13 @@ const LoginDialog = () => {
 
   const { data: session } = useSession(); // TODO 로그인 정보 활용
 
-  const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        alert(`${user} 로그인 성공`);
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(`[${errorCode}] ${errorMessage}`);
-      });
+  const handleLogin = async () => {
+    const loginData = await firebaseLogin(email, password);
+    console.log('loginData : ', loginData);
   };
 
   const handleSignin = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        alert(`${user} 회원가입 성공`);
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(`[${errorCode}] ${errorMessage}`);
-        // ..
-      });
-  };
-
-  const temp = () => {
-    const user = auth.currentUser;
-    console.log('user : ', user);
-    console.log(auth);
+    firebaseSignin(email, password);
   };
 
   return (
@@ -104,9 +75,9 @@ const LoginDialog = () => {
             네이버로그인
           </Button>
           {/* <Button type="submit">카카오로그인</Button> */}
-          <Button type="submit" onClick={temp}>
+          {/* <Button type="submit" onClick={temp}>
             로그인된 사용자 조회
-          </Button>
+          </Button> */}
           <Button type="submit" onClick={handleLogin}>
             Login
           </Button>

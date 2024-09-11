@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 
 import { siteConfig } from '@/config/site';
@@ -12,8 +13,22 @@ import LoginDialog from './ui/LoginDialog';
 
 import { UserNav } from './user-nav';
 
+import { auth } from '@/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useState } from 'react';
+
 export function SiteHeader() {
-  const isLogin = false; // TODO 쿠키에 로그인 정보가 있는지로 판단
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+
+  // 로그인 여부에 따른 헤더 분기
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // const uid = user.uid;
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  });
 
   return (
     <header className="sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
