@@ -1,5 +1,5 @@
 'use client';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn, signOut as sss, useSession } from 'next-auth/react';
 
 import {
   Dialog,
@@ -14,9 +14,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import firebaseLogin from '@/service/firebase/login';
 import firebaseSignin from '@/service/firebase/signin';
+import { signOut } from 'firebase/auth';
 
 const LoginDialog = () => {
   const [email, setEmail] = useState('');
@@ -32,6 +33,11 @@ const LoginDialog = () => {
   const handleSignin = () => {
     firebaseSignin(email, password);
   };
+
+  useEffect(() => {
+    console.log('next-auth 로그인 정보');
+    console.log(session);
+  }, [session]);
 
   return (
     <Dialog>
@@ -71,8 +77,12 @@ const LoginDialog = () => {
           </div>
         </div>
         <DialogFooter>
+          {session?.user ? <>네이버O</> : <>네이버X</>}
           <Button type="submit" onClick={() => signIn()}>
-            네이버로그인
+            N로그인
+          </Button>
+          <Button type="submit" onClick={() => sss()}>
+            N로그아웃
           </Button>
           {/* <Button type="submit">카카오로그인</Button> */}
           {/* <Button type="submit" onClick={temp}>
