@@ -1,6 +1,6 @@
 // import { useAtom } from 'jotai';
 // import { atomWithStorage } from 'jotai/utils';
-import create from 'zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { Style } from '@/components/ui/styles';
@@ -27,6 +27,20 @@ interface IConfigStore {
 //   return useAtom(configAtom);
 // }
 
+const localStorageWrapper = {
+  getItem: (name: string) => {
+    const storedValue = localStorage.getItem(name);
+    return storedValue ? JSON.parse(storedValue) : null;
+  },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setItem: (name: string, value: any) => {
+    localStorage.setItem(name, JSON.stringify(value));
+  },
+  removeItem: (name: string) => {
+    localStorage.removeItem(name);
+  },
+};
+
 const useConfigStore = create<IConfigStore>()(
   persist(
     (set) => ({
@@ -39,7 +53,7 @@ const useConfigStore = create<IConfigStore>()(
     }),
     {
       name: 'config', // 로컬 스토리지 키 이름
-      getStorage: () => localStorage, // (옵션) 기본값이 localStorage이므로 명시하지 않아도 됩니다.
+      storage: localStorageWrapper, // (옵션) 기본값이 localStorage이므로 명시하지 않아도 됩니다.
     },
   ),
 );

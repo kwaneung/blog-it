@@ -26,9 +26,8 @@ const LoginDialog = () => {
 
   const { data: session } = useSession(); // next-auth 로그인 정보
 
-  const handleLogin = async () => {
-    const loginData = await firebaseLogin(email, password);
-    console.log('loginData : ', loginData);
+  const handleLogin = () => {
+    firebaseLogin(email, password);
   };
 
   const handleSignin = () => {
@@ -36,8 +35,6 @@ const LoginDialog = () => {
   };
 
   useEffect(() => {
-    console.log('next-auth 로그인 정보');
-    console.log(session);
     if (session?.firebaseToken) {
       try {
         signInWithCustomToken(auth, session.firebaseToken);
