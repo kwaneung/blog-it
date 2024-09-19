@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import firebaseLogout from '@/service/firebase/logout';
+import { signOut } from 'next-auth/react';
 
 export function UserNav() {
   return (
@@ -48,7 +49,12 @@ export function UserNav() {
           <DropdownMenuItem>New Team</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={firebaseLogout}>
+        <DropdownMenuItem
+          onClick={() => {
+            firebaseLogout();
+            signOut();
+          }}
+        >
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>

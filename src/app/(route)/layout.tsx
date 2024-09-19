@@ -10,6 +10,7 @@ import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import AuthSession from './_components/AuthSession';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { app } from '@/firebase';
 
 interface IRootLayoutProps {

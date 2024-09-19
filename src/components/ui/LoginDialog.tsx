@@ -1,5 +1,5 @@
 'use client';
-import { signIn, signOut as sss, useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 
 import {
   Dialog,
@@ -17,13 +17,14 @@ import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
 import firebaseLogin from '@/service/firebase/login';
 import firebaseSignin from '@/service/firebase/signin';
-import { signOut } from 'firebase/auth';
+import { signInWithCustomToken } from 'firebase/auth';
+import { auth } from '@/firebase';
 
 const LoginDialog = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { data: session } = useSession(); // TODO 로그인 정보 활용
+  const { data: session } = useSession(); // next-auth 로그인 정보
 
   const handleLogin = async () => {
     const loginData = await firebaseLogin(email, password);
@@ -37,6 +38,13 @@ const LoginDialog = () => {
   useEffect(() => {
     console.log('next-auth 로그인 정보');
     console.log(session);
+    if (session?.firebaseToken) {
+      try {
+        signInWithCustomToken(auth, session.firebaseToken);
+      } catch (error) {
+        console.error('Firebase login failed:', error);
+      }
+    }
   }, [session]);
 
   return (
@@ -77,12 +85,8 @@ const LoginDialog = () => {
           </div>
         </div>
         <DialogFooter>
-          {session?.user ? <>네이버O</> : <>네이버X</>}
           <Button type="submit" onClick={() => signIn()}>
-            N로그인
-          </Button>
-          <Button type="submit" onClick={() => sss()}>
-            N로그아웃
+            네이버 로그인
           </Button>
           {/* <Button type="submit">카카오로그인</Button> */}
           {/* <Button type="submit" onClick={temp}>
