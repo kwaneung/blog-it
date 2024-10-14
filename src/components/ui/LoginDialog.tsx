@@ -1,5 +1,5 @@
 'use client';
-import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 import {
   Dialog,
@@ -9,40 +9,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 
-import { useEffect, useState } from 'react';
-import firebaseLogin from '@/service/firebase/login';
-import firebaseSignin from '@/service/firebase/signin';
-import { signInWithCustomToken } from 'firebase/auth';
-import { auth } from '@/firebase';
+import { useState } from 'react';
 
 const LoginDialog = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { data: session } = useSession(); // next-auth 로그인 정보
-
-  const handleLogin = () => {
-    firebaseLogin(email, password);
-  };
-
-  const handleSignin = () => {
-    firebaseSignin(email, password);
-  };
-
-  useEffect(() => {
-    if (session?.firebaseToken) {
-      try {
-        signInWithCustomToken(auth, session.firebaseToken);
-      } catch (error) {
-        console.error('Firebase login failed:', error);
-      }
-    }
-  }, [session]);
+  const router = useRouter();
 
   return (
     <Dialog>
@@ -82,19 +61,13 @@ const LoginDialog = () => {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={() => signIn()}>
-            네이버 로그인
-          </Button>
-          {/* <Button type="submit">카카오로그인</Button> */}
-          {/* <Button type="submit" onClick={temp}>
-            로그인된 사용자 조회
-          </Button> */}
-          <Button type="submit" onClick={handleLogin}>
-            Login
-          </Button>
-          <Button type="submit" onClick={handleSignin}>
-            Sigin
-          </Button>
+          <DialogClose asChild>
+            <Button type="submit" onClick={() => router.push('/auth')}>
+              Kakao Login
+            </Button>
+          </DialogClose>
+          <Button type="submit">Login</Button>
+          <Button type="submit">Sigin</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

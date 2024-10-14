@@ -13,22 +13,15 @@ import LoginDialog from './ui/LoginDialog';
 
 import { UserNav } from './user-nav';
 
-import { auth } from '@/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useUser } from '@supabase/auth-helpers-react';
 
 export function SiteHeader() {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const user = useUser(); // useUser훅을 통해 유저데이터를 받아옴
 
-  // 로그인 여부에 따른 헤더 분기
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // const uid = user.uid;
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  });
+  useEffect(() => {
+    console.log('user ::: ', user);
+  }, [user]);
 
   return (
     <header className="sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -54,7 +47,7 @@ export function SiteHeader() {
               </div>
             </Link>
             <ModeToggle />
-            {isLogin ? <UserNav /> : <LoginDialog />}
+            {user ? <UserNav /> : <LoginDialog />}
           </nav>
         </div>
       </div>

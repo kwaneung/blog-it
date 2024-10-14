@@ -8,7 +8,7 @@ import { Toaster as DefaultToaster } from '@/components/ui/toaster';
 
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
-import AuthSession from './_components/AuthSession';
+import SupabaseProvider from './_components/SupabaseProvider';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { app } from '@/firebase';
@@ -32,11 +32,11 @@ export default function RootLayout({ children }: IRootLayoutProps) {
             <div vaul-drawer-wrapper="">
               <div className="relative flex min-h-screen flex-col bg-background">
                 <>
-                  <AuthSession>
+                  <SupabaseProvider>
                     <SiteHeader />
                     {children}
                     <SiteFooter />
-                  </AuthSession>
+                  </SupabaseProvider>
                 </>
               </div>
             </div>

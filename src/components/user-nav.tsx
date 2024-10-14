@@ -11,10 +11,13 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import firebaseLogout from '@/service/firebase/logout';
-import { signOut } from 'next-auth/react';
+import { useSessionContext, useUser } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/navigation';
 
 export function UserNav() {
+  const { supabaseClient } = useSessionContext();
+  const user = useUser();
+  const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -28,13 +31,15 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">shadcn</p>
-            <p className="text-xs leading-none text-muted-foreground">m@example.com</p>
+            <p className="text-sm font-medium leading-none">{user?.user_metadata.name}</p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {user?.user_metadata.email}
+            </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push('/settings/profile')}>
             Profile
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
@@ -50,9 +55,11 @@ export function UserNav() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onClick={() => {
-            firebaseLogout();
-            signOut();
+          onClick={async () => {
+            // firebaseLogout();
+            // signOut();
+            const { error } = await supabaseClient.auth.signOut();
+            if (error) alert(error);
           }}
         >
           Log out
