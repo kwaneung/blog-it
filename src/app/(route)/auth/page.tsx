@@ -16,8 +16,9 @@ const SignIn = () => {
           theme: ThemeSupa,
           style: { container: { width: '300px' } },
         }}
-        providers={['kakao']}
+        providers={['apple', 'google', 'kakao']}
         localization={{}}
+        onlyThirdPartyProviders
       />
     </div>
   );
