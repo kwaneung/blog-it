@@ -56,8 +56,6 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={async () => {
-            // firebaseLogout();
-            // signOut();
             const { error } = await supabaseClient.auth.signOut();
             if (error) alert(error);
           }}
