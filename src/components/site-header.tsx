@@ -18,6 +18,7 @@ import { useSession } from '@supabase/auth-helpers-react';
 
 export function SiteHeader() {
   const session = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     console.log('session ::: ', session);
@@ -50,7 +51,12 @@ export function SiteHeader() {
             {session ? (
               <UserNav />
             ) : (
-              <Button variant="outline" size="sm" className="h-8">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8"
+                onClick={() => router.push('/auth')}
+              >
                 로그인
               </Button>
             )}
