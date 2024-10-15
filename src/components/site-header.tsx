@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
@@ -8,7 +9,7 @@ import { Icons } from '@/components/icons';
 import { HeaderNav } from '@/components/header-nav';
 import { MobileNav } from '@/components/mobile-nav';
 import { ModeToggle } from '@/components/mode-toggle';
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import LoginDialog from './ui/LoginDialog';
 
 import { UserNav } from './user-nav';
@@ -18,6 +19,7 @@ import { useUser } from '@supabase/auth-helpers-react';
 
 export function SiteHeader() {
   const user = useUser(); // useUser훅을 통해 유저데이터를 받아옴
+  const router = useRouter();
 
   useEffect(() => {
     console.log('user ::: ', user);
@@ -47,7 +49,13 @@ export function SiteHeader() {
               </div>
             </Link>
             <ModeToggle />
-            {user ? <UserNav /> : <LoginDialog />}
+            {user ? (
+              <UserNav />
+            ) : (
+              <Button variant="outline" size="sm" className="h-8">
+                로그인
+              </Button>
+            )}
           </nav>
         </div>
       </div>
