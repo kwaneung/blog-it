@@ -10,20 +10,18 @@ import { HeaderNav } from '@/components/header-nav';
 import { MobileNav } from '@/components/mobile-nav';
 import { ModeToggle } from '@/components/mode-toggle';
 import { Button, buttonVariants } from '@/components/ui/button';
-import LoginDialog from './ui/LoginDialog';
 
 import { UserNav } from './user-nav';
 
 import { useEffect } from 'react';
-import { useUser } from '@supabase/auth-helpers-react';
+import { useSession } from '@supabase/auth-helpers-react';
 
 export function SiteHeader() {
-  const user = useUser(); // useUser훅을 통해 유저데이터를 받아옴
-  const router = useRouter();
+  const session = useSession();
 
   useEffect(() => {
-    console.log('user ::: ', user);
-  }, [user]);
+    console.log('session ::: ', session);
+  }, [session]);
 
   return (
     <header className="sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -49,7 +47,7 @@ export function SiteHeader() {
               </div>
             </Link>
             <ModeToggle />
-            {user ? (
+            {session ? (
               <UserNav />
             ) : (
               <Button variant="outline" size="sm" className="h-8">
