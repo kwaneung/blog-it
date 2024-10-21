@@ -26,6 +26,11 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { useUserProfileQuery } from '@/service/queries/profile/useUserProfileQuery';
 
 const profileFormSchema = z.object({
   username: z
@@ -82,6 +87,17 @@ export function ProfileForm() {
     });
   }
 
+  const session = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!session) {
+      router.push('/auth');
+    }
+  }, [session, router]);
+
+  const { data: userProfile } = useUserProfileQuery(session?.user?.email);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -92,7 +108,10 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input
+                  placeholder={userProfile?.user_name || session?.user.user_metadata.name}
+                  {...field}
+                />
               </FormControl>
               <FormDescription>
                 This is your public display name. It can be your real name or a pseudonym. You can
@@ -111,13 +130,15 @@ export function ProfileForm() {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
+                    <SelectValue placeholder={userProfile?.email?.[0]} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="m@example.com">m@example.com</SelectItem>
-                  <SelectItem value="m@google.com">m@google.com</SelectItem>
-                  <SelectItem value="m@support.com">m@support.com</SelectItem>
+                  {userProfile?.email?.map((email: string) => (
+                    <SelectItem key={email} value={email}>
+                      {email}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormDescription>
