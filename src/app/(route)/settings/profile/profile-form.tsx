@@ -98,6 +98,10 @@ export function ProfileForm() {
 
   const { data: userProfile } = useUserProfileQuery(session?.user?.email);
 
+  useEffect(() => {
+    console.log('userProfile :: ', userProfile);
+  }, [userProfile]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -130,7 +134,13 @@ export function ProfileForm() {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder={userProfile?.email?.[0]} />
+                    <SelectValue
+                      placeholder={
+                        userProfile?.emails.find(
+                          (email: { is_default: boolean }) => email.is_default,
+                        )?.email
+                      }
+                    />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
