@@ -61,6 +61,7 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 // This can come from your database or API.
 const defaultValues: Partial<ProfileFormValues> = {
+  username: 'username',
   bio: 'I own a computer.',
   urls: [{ value: 'https://shadcn.com' }, { value: 'http://twitter.com/shadcn' }],
 };
@@ -76,6 +77,8 @@ export function ProfileForm() {
     name: 'urls',
     control: form.control,
   });
+
+  const { reset } = form;
 
   function onSubmit(data: ProfileFormValues) {
     toast({
@@ -99,6 +102,20 @@ export function ProfileForm() {
 
   const { data: userProfile } = useUserProfileQuery(session?.user?.email);
 
+  // userProfile이 로드된 후 form 필드에 값 설정
+  useEffect(() => {
+    if (userProfile) {
+      reset({
+        username: userProfile.user_name,
+        email:
+          userProfile.emails.find((email: { is_default: boolean }) => email.is_default)?.email ||
+          '',
+        bio: userProfile.bio,
+        urls: userProfile.url?.map((url: string) => ({ value: url })),
+      });
+    }
+  }, [userProfile, reset]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -109,10 +126,7 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input
-                  placeholder={userProfile?.user_name || session?.user.user_metadata.name}
-                  {...field}
-                />
+                <Input placeholder="Input user name" {...field} />
               </FormControl>
               <FormDescription>
                 This is your public display name. It can be your real name or a pseudonym. You can
