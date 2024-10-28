@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { IUserEmail, IUserProfile } from '@/types/profile';
-
-type UserProfileWithEmails = IUserProfile & { emails: IUserEmail[] };
+import { UserProfileWithEmails } from '@/types/profile';
 
 export const useUserProfileQuery = (email: string | undefined) => {
   const supabaseClient = useSupabaseClient();
+
   return useQuery<UserProfileWithEmails>({
     queryKey: ['user_profile', email],
     queryFn: async () => {

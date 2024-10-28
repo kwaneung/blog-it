@@ -111,7 +111,7 @@ export function ProfileForm() {
           userProfile.emails.find((email: { is_default: boolean }) => email.is_default)?.email ||
           '',
         bio: userProfile.bio,
-        urls: userProfile.url?.map((url: string) => ({ value: url })),
+        urls: userProfile.urls?.map((url: string) => ({ value: url })),
       });
     }
   }, [userProfile, reset]);
