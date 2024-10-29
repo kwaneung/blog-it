@@ -31,6 +31,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { useUserProfileQuery } from '@/service/queries/profile/useUserProfileQuery';
+import { useUserProfileMutation } from '@/service/queries/profile/useUserProfileMutation';
 import { IUserEmail } from '@/types/profile';
 
 const profileFormSchema = z.object({
@@ -80,6 +81,8 @@ export function ProfileForm() {
 
   const { reset } = form;
 
+  const { mutate: updateUserProfile } = useUserProfileMutation();
+
   function onSubmit(data: ProfileFormValues) {
     toast({
       title: 'You submitted the following values:',
@@ -89,6 +92,8 @@ export function ProfileForm() {
         </pre>
       ),
     });
+
+    // updateUserProfile(data);
   }
 
   const session = useSession();
@@ -105,13 +110,24 @@ export function ProfileForm() {
   // userProfile이 로드된 후 form 필드에 값 설정
   useEffect(() => {
     if (userProfile) {
+      console.log('userProfile :: ', userProfile);
       reset({
         username: userProfile.user_name,
         email:
           userProfile.emails.find((email: { is_default: boolean }) => email.is_default)?.email ||
           '',
         bio: userProfile.bio,
-        urls: userProfile.urls?.map((url: string) => ({ value: url })),
+        urls: userProfile.urls
+          ? userProfile.urls.map((urlString: string) => {
+              try {
+                const urlObj = JSON.parse(urlString);
+                return { value: urlObj.value };
+              } catch (error) {
+                console.error('Invalid URL format', error);
+                return { value: '' };
+              }
+            })
+          : [],
       });
     }
   }, [userProfile, reset]);
