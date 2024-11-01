@@ -29,7 +29,7 @@ import { toast } from '@/components/ui/use-toast';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
+// import { useQuery } from '@tanstack/react-query';
 import { useUserProfileQuery } from '@/service/queries/profile/useUserProfileQuery';
 import { useUserProfileMutation } from '@/service/queries/profile/useUserProfileMutation';
 import { IUserEmail } from '@/types/profile';
@@ -74,6 +74,17 @@ export function ProfileForm() {
     mode: 'onChange',
   });
 
+  const session = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!session) {
+      router.push('/auth');
+    }
+  }, [session, router]);
+
+  const { data: userProfile } = useUserProfileQuery(session?.user?.email);
+
   const { fields, append } = useFieldArray({
     name: 'urls',
     control: form.control,
@@ -93,24 +104,22 @@ export function ProfileForm() {
       ),
     });
 
-    // updateUserProfile(data);
+    const param = {
+      user_key: session?.user?.email,
+      user_name: data.username,
+      emails: data.email, // TODO emails 객체 배열에서 선택한 email만 is_default를true로 하고 나머지는 false로하는 전처리 필요
+      bio: data.bio,
+      urls: data.urls,
+    };
+
+    console.log('param : ', param);
+
+    // updateUserProfile(param);
   }
-
-  const session = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!session) {
-      router.push('/auth');
-    }
-  }, [session, router]);
-
-  const { data: userProfile } = useUserProfileQuery(session?.user?.email);
 
   // userProfile이 로드된 후 form 필드에 값 설정
   useEffect(() => {
     if (userProfile) {
-      console.log('userProfile :: ', userProfile);
       reset({
         username: userProfile.user_name,
         email:

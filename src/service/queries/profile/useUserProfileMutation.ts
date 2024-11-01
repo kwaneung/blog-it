@@ -9,23 +9,38 @@ export const useUserProfileMutation = () => {
     mutationFn: async (data: UserProfileWithEmails) => {
       const { user_key, user_name, bio, urls, emails } = data;
 
-      const { error: profileError } = await supabaseClient
+      // user_profile 테이블 업데이트
+      const { error: userProfileError } = await supabaseClient
         .from('user_profile')
-        .update(user_key, user_name, bio, urls)
+        .update({ user_name, bio, urls })
         .eq('user_key', user_key);
 
-      if (profileError) {
-        throw new Error(`User profile update failed: ${profileError.message}`);
+      if (userProfileError) {
+        throw new Error(userProfileError.message);
       }
 
-      for (const emailData of emails) {
-        const { error: emailError } = await supabaseClient
-          .from('user_profile_email')
-          .upsert(emailData, { onConflict: 'email' });
+      // user_profile_email 테이블 업데이트 (기존 데이터 삭제 후 새로 추가)
+      const { error: deleteEmailsError } = await supabaseClient
+        .from('user_profile_email')
+        .delete()
+        .eq('user_key', user_key);
 
-        if (emailError) {
-          throw new Error(`Email update failed for ${emailData.email}: ${emailError.message}`);
-        }
+      if (deleteEmailsError) {
+        throw new Error(deleteEmailsError.message);
+      }
+
+      const emailInsertData = emails.map((email) => ({
+        user_key: user_key,
+        email: email.email,
+        is_default: email.is_default,
+      }));
+
+      const { error: insertEmailsError } = await supabaseClient
+        .from('user_profile_email')
+        .insert(emailInsertData);
+
+      if (insertEmailsError) {
+        throw new Error(insertEmailsError.message);
       }
 
       return { success: true };
