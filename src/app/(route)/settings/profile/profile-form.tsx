@@ -104,15 +104,18 @@ export function ProfileForm() {
       ),
     });
 
+    // 기존 emails에서 선택한 emails을 is_default로 바꿔줘
+    userProfile?.emails.forEach((emailObj) => {
+      emailObj.is_default = emailObj.email === data.email;
+    });
+
     const param = {
       user_key: session?.user?.email,
       user_name: data.username,
-      emails: data.email, // TODO emails 객체 배열에서 선택한 email만 is_default를true로 하고 나머지는 false로하는 전처리 필요
+      emails: userProfile?.emails,
       bio: data.bio,
       urls: data.urls,
     };
-
-    console.log('param : ', param);
 
     // updateUserProfile(param);
   }
