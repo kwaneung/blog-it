@@ -2,7 +2,6 @@ interface IUserProfile {
   user_key: string;
   user_name: string;
   bio: string;
-  urls: string[];
 }
 
 interface IUserEmail {
@@ -10,6 +9,10 @@ interface IUserEmail {
   is_default: boolean;
 }
 
-type UserProfileWithEmails = IUserProfile & { emails: IUserEmail[] };
+interface IUserUrl {
+  url: string;
+}
 
-export type { IUserEmail, UserProfileWithEmails };
+type UserProfileWithEmails = IUserProfile & { emails: IUserEmail[] } & { urls: IUserUrl[] };
+
+export type { IUserEmail, IUserUrl, UserProfileWithEmails };

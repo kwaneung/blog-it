@@ -28,7 +28,16 @@ export const useUserProfileQuery = (email: string | undefined) => {
         throw new Error(userEmailsError.message);
       }
 
-      const result = { ...userProfile[0], emails: userEmails };
+      const { data: userUrls, error: userUrlsError } = await supabaseClient
+        .from('user_profile_url')
+        .select('url')
+        .eq('user_key', email);
+
+      if (userUrlsError) {
+        throw new Error(userUrlsError.message);
+      }
+
+      const result = { ...userProfile[0], emails: userEmails, urls: userUrls };
 
       return result;
     },

@@ -32,7 +32,7 @@ import { useRouter } from 'next/navigation';
 // import { useQuery } from '@tanstack/react-query';
 import { useUserProfileQuery } from '@/service/queries/profile/useUserProfileQuery';
 import { useUserProfileMutation } from '@/service/queries/profile/useUserProfileMutation';
-import { IUserEmail } from '@/types/profile';
+import { IUserEmail, IUserUrl } from '@/types/profile';
 
 const profileFormSchema = z.object({
   username: z
@@ -125,21 +125,9 @@ export function ProfileForm() {
     if (userProfile) {
       reset({
         username: userProfile.user_name,
-        email:
-          userProfile.emails.find((email: { is_default: boolean }) => email.is_default)?.email ||
-          '',
+        email: userProfile.emails.find((email: IUserEmail) => email.is_default)?.email || '',
         bio: userProfile.bio,
-        urls: userProfile.urls
-          ? userProfile.urls.map((urlString: string) => {
-              try {
-                const urlObj = JSON.parse(urlString);
-                return { value: urlObj.value };
-              } catch (error) {
-                console.error('Invalid URL format', error);
-                return { value: '' };
-              }
-            })
-          : [],
+        urls: userProfile.urls.map((url: IUserUrl) => ({ value: url.url })),
       });
     }
   }, [userProfile, reset]);
