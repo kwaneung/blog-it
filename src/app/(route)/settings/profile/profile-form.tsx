@@ -43,11 +43,11 @@ const profileFormSchema = z.object({
     .max(30, {
       message: 'Username must not be longer than 30 characters.',
     }),
-  email: z
-    .string({
-      required_error: 'Please select an email to display.',
-    })
-    .email(),
+  // email: z
+  //   .string({
+  //     required_error: 'Please select an email to display.',
+  //   })
+  //   .email(),
   bio: z.string().max(160).min(4),
   urls: z
     .array(
@@ -104,13 +104,13 @@ export function ProfileForm() {
       ),
     });
 
-    const param = {
-      user_key: session?.user?.email,
-      user_name: data.username,
-      emails: userProfile?.emails,
-      bio: data.bio,
-      urls: data.urls,
-    };
+    // const param = {
+    //   user_key: session?.user?.email,
+    //   user_name: data.username,
+    //   emails: userProfile?.emails,
+    //   bio: data.bio,
+    //   urls: data.urls,
+    // };
 
     // updateUserProfile(param);
   }
