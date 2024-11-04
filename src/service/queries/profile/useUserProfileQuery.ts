@@ -1,19 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { UserProfileWithEmails } from '@/types/profile';
 
-export const useUserProfileQuery = (email: string | undefined) => {
+export const useUserProfileQuery = () => {
   const supabaseClient = useSupabaseClient();
+  const session = useSession();
+  const id = session?.user?.id;
 
   return useQuery<UserProfileWithEmails>({
-    queryKey: ['user_profile', email],
+    queryKey: ['user_profile', id],
     queryFn: async () => {
-      if (!email) throw new Error('User email is required');
+      if (!id) throw new Error('User id is required');
 
       const { data: userProfile, error: userProfileError } = await supabaseClient
         .from('user_profile')
         .select('*')
-        .eq('user_key', email);
+        .eq('id', id);
 
       if (userProfileError) {
         throw new Error(userProfileError.message);
@@ -21,8 +23,8 @@ export const useUserProfileQuery = (email: string | undefined) => {
 
       const { data: userEmails, error: userEmailsError } = await supabaseClient
         .from('user_profile_email')
-        .select('email, is_default')
-        .eq('user_key', email);
+        .select('email')
+        .eq('id', id);
 
       if (userEmailsError) {
         throw new Error(userEmailsError.message);
@@ -31,7 +33,7 @@ export const useUserProfileQuery = (email: string | undefined) => {
       const { data: userUrls, error: userUrlsError } = await supabaseClient
         .from('user_profile_url')
         .select('url')
-        .eq('user_key', email);
+        .eq('id', id);
 
       if (userUrlsError) {
         throw new Error(userUrlsError.message);
@@ -41,6 +43,6 @@ export const useUserProfileQuery = (email: string | undefined) => {
 
       return result;
     },
-    enabled: !!email, // email이 있을 때만 쿼리 실행
+    enabled: !!id, // email이 있을 때만 쿼리 실행
   });
 };

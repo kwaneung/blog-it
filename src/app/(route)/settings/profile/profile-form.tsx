@@ -83,7 +83,7 @@ export function ProfileForm() {
     }
   }, [session, router]);
 
-  const { data: userProfile } = useUserProfileQuery(session?.user?.email);
+  const { data: userProfile } = useUserProfileQuery();
 
   const { fields, append } = useFieldArray({
     name: 'urls',
