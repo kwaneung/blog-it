@@ -104,11 +104,6 @@ export function ProfileForm() {
       ),
     });
 
-    // 기존 emails에서 선택한 emails을 is_default로 바꿔줘
-    userProfile?.emails.forEach((emailObj) => {
-      emailObj.is_default = emailObj.email === data.email;
-    });
-
     const param = {
       user_key: session?.user?.email,
       user_name: data.username,
@@ -124,8 +119,7 @@ export function ProfileForm() {
   useEffect(() => {
     if (userProfile) {
       reset({
-        username: userProfile.user_name,
-        email: userProfile.emails.find((email: IUserEmail) => email.is_default)?.email || '',
+        username: userProfile.name,
         bio: userProfile.bio,
         urls: userProfile.urls.map((url: IUserUrl) => ({ value: url.url })),
       });
@@ -152,7 +146,7 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
@@ -185,7 +179,7 @@ export function ProfileForm() {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         <FormField
           control={form.control}
           name="bio"
