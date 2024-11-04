@@ -14,7 +14,7 @@ export const useUserProfileQuery = () => {
 
       const { data: userProfile, error: userProfileError } = await supabaseClient
         .from('user_profile')
-        .select('*')
+        .select('email, bio, name')
         .eq('id', id);
 
       if (userProfileError) {

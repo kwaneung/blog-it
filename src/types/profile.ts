@@ -1,12 +1,11 @@
 interface IUserProfile {
-  user_key: string;
-  user_name: string;
+  name: string;
+  email: string;
   bio: string;
 }
 
 interface IUserEmail {
   email: string;
-  is_default: boolean;
 }
 
 interface IUserUrl {
