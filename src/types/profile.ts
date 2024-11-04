@@ -1,6 +1,5 @@
 interface IUserProfile {
   name: string;
-  email: string;
   bio: string;
 }
 
@@ -9,9 +8,9 @@ interface IUserEmail {
 }
 
 interface IUserUrl {
-  url: string;
+  value: string;
 }
 
-type UserProfileWithEmails = IUserProfile & { emails: IUserEmail[] } & { urls: IUserUrl[] };
+type UserProfileWithUrls = IUserProfile & { urls: IUserUrl[] };
 
-export type { IUserEmail, IUserUrl, UserProfileWithEmails };
+export type { IUserEmail, IUserUrl, UserProfileWithUrls };

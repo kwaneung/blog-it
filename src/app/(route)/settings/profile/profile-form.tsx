@@ -17,22 +17,14 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
-import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
-import { useEffect, useState } from 'react';
+import { useSession } from '@supabase/auth-helpers-react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-// import { useQuery } from '@tanstack/react-query';
 import { useUserProfileQuery } from '@/service/queries/profile/useUserProfileQuery';
 import { useUserProfileMutation } from '@/service/queries/profile/useUserProfileMutation';
-import { IUserEmail, IUserUrl } from '@/types/profile';
+import { IUserUrl } from '@/types/profile';
 
 const profileFormSchema = z.object({
   username: z
@@ -104,15 +96,13 @@ export function ProfileForm() {
       ),
     });
 
-    // const param = {
-    //   user_key: session?.user?.email,
-    //   user_name: data.username,
-    //   emails: userProfile?.emails,
-    //   bio: data.bio,
-    //   urls: data.urls,
-    // };
+    const param = {
+      name: data.username,
+      bio: data.bio,
+      urls: data.urls?.map((url) => ({ value: url.value })) || [],
+    };
 
-    // updateUserProfile(param);
+    updateUserProfile(param);
   }
 
   // userProfile이 로드된 후 form 필드에 값 설정
@@ -121,7 +111,7 @@ export function ProfileForm() {
       reset({
         username: userProfile.name,
         bio: userProfile.bio,
-        urls: userProfile.urls.map((url: IUserUrl) => ({ value: url.url })),
+        urls: userProfile.urls.map((url: IUserUrl) => ({ value: url.value })),
       });
     }
   }, [userProfile, reset]);

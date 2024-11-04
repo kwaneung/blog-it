@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
-import { UserProfileWithEmails } from '@/types/profile';
+import { UserProfileWithUrls } from '@/types/profile';
 
 export const useUserProfileQuery = () => {
   const supabaseClient = useSupabaseClient();
   const session = useSession();
   const id = session?.user?.id;
 
-  return useQuery<UserProfileWithEmails>({
+  return useQuery<UserProfileWithUrls>({
     queryKey: ['user_profile', id],
     queryFn: async () => {
       if (!id) throw new Error('User id is required');
@@ -21,14 +21,14 @@ export const useUserProfileQuery = () => {
         throw new Error(userProfileError.message);
       }
 
-      const { data: userEmails, error: userEmailsError } = await supabaseClient
-        .from('user_profile_email')
-        .select('email')
-        .eq('id', id);
+      // const { data: userEmails, error: userEmailsError } = await supabaseClient
+      //   .from('user_profile_email')
+      //   .select('email')
+      //   .eq('id', id);
 
-      if (userEmailsError) {
-        throw new Error(userEmailsError.message);
-      }
+      // if (userEmailsError) {
+      //   throw new Error(userEmailsError.message);
+      // }
 
       const { data: userUrls, error: userUrlsError } = await supabaseClient
         .from('user_profile_url')
@@ -39,7 +39,11 @@ export const useUserProfileQuery = () => {
         throw new Error(userUrlsError.message);
       }
 
-      const result = { ...userProfile[0], emails: userEmails, urls: userUrls };
+      const mappedUrls = userUrls.map((urlObj) => ({
+        value: urlObj.url,
+      }));
+
+      const result = { ...userProfile[0], urls: mappedUrls };
 
       return result;
     },
