@@ -1,3 +1,5 @@
+👉🏻[Blog-It portfolio](https://kwaneung.notion.site/BlogIt-890425a761f648cbb19982343e41b5ad)👈🏻
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
