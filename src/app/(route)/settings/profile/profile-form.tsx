@@ -77,7 +77,7 @@ export function ProfileForm() {
 
   const { data: userProfile } = useUserProfileQuery();
 
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     name: 'urls',
     control: form.control,
   });
@@ -203,7 +203,16 @@ export function ProfileForm() {
                     Add links to your website, blog, or social media profiles.
                   </FormDescription>
                   <FormControl>
-                    <Input {...field} />
+                    <div className="flex items-start gap-2">
+                      <Input {...field} />
+                      <Button
+                        variant="secondary"
+                        className="shrink-0"
+                        onClick={() => remove(index)}
+                      >
+                        Delete Link
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
