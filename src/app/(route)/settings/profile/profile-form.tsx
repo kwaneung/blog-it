@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -52,14 +51,16 @@ const profileFormSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-// This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {
-  username: 'username',
-  bio: 'I own a computer.',
-  urls: [{ value: 'https://shadcn.com' }, { value: 'http://twitter.com/shadcn' }],
-};
-
 export function ProfileForm() {
+  const { data: userProfile } = useUserProfileQuery();
+
+  // This can come from your database or API.
+  const defaultValues: Partial<ProfileFormValues> = {
+    username: userProfile?.name,
+    bio: userProfile?.bio,
+    urls: userProfile?.urls,
+  };
+
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
@@ -74,8 +75,6 @@ export function ProfileForm() {
       router.push('/auth');
     }
   }, [session, router]);
-
-  const { data: userProfile } = useUserProfileQuery();
 
   const { fields, append, remove } = useFieldArray({
     name: 'urls',
