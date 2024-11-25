@@ -21,8 +21,7 @@ import { toast } from '@/components/ui/use-toast';
 import { useSession } from '@supabase/auth-helpers-react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUserProfileQuery } from '@/service/queries/profile/useUserProfileQuery';
-import { useUserProfileMutation } from '@/service/queries/profile/useUserProfileMutation';
+import { useUserProfileQuery, useUserProfileMutation } from '@/queries/useUserProfile';
 import { IUserUrl } from '@/types/profile';
 
 const profileFormSchema = z.object({
