@@ -13,4 +13,4 @@ interface IUserUrl {
 
 type UserProfileWithUrls = IUserProfile & { urls: IUserUrl[] };
 
-export type { IUserEmail, IUserUrl, UserProfileWithUrls };
+export type { IUserEmail, IUserProfile, IUserUrl, UserProfileWithUrls };

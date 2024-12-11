@@ -4,6 +4,7 @@ import { UserProfileWithUrls } from '@/types/profile';
 import { updateUserProfile } from '@/services/userProfile';
 import { useQuery } from '@tanstack/react-query';
 import { fetchUserProfile } from '@/services/userProfile';
+import { createUserProfile } from '@/services/userProfile';
 
 export const useUserProfileQuery = () => {
   const session = useSession();
@@ -27,6 +28,18 @@ export const useUserProfileMutation = () => {
     },
     onSuccess: () => {
       console.log('User profile updated successfully');
+    },
+  });
+};
+
+export const useCreateUserProfileMutation = () => {
+  return useMutation({
+    mutationFn: ({ id, name }: { id: string; name: string }) => createUserProfile(id, name),
+    onError: (error) => {
+      console.error('Error creating user profile:', error);
+    },
+    onSuccess: () => {
+      console.log('User profile created successfully');
     },
   });
 };

@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
+import { fetchUserProfile, createUserProfile } from '@/services/userProfile';
+import { UserProfileWithUrls } from '@/types/profile';
 
 const SignIn = () => {
   const supabaseClient = useSupabaseClient();
@@ -15,7 +17,14 @@ const SignIn = () => {
 
   useEffect(() => {
     if (session) {
-      router.push('/'); // Redirect to the root page if the user is already logged in
+      fetchUserProfile(session?.user?.id!).then((data: UserProfileWithUrls) => {
+        const { urls: _, ...profile } = data;
+
+        if (Object.keys(profile).length === 0) {
+          createUserProfile(session?.user?.id!, session?.user?.user_metadata?.full_name!);
+        }
+      });
+      router.push('/');
     }
   }, [session, router]);
 
@@ -30,6 +39,10 @@ const SignIn = () => {
         providers={['kakao']}
         localization={{}}
         onlyThirdPartyProviders
+        redirectTo={'http://localhost:3000/auth'}
+        // socialLayout="horizontal"
+        // view="sign_in"
+        // showLinks={false}
       />
     </div>
   );

@@ -47,6 +47,14 @@ module.exports = {
     '@typescript-eslint/explicit-member-accessibility': 'off',
     // 근거: useEffect 안에서 await 사용 불가
     '@typescript-eslint/no-floating-promises': 'off',
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      },
+    ],
   },
   settings: {
     react: {

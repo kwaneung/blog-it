@@ -18,7 +18,7 @@ export async function GET(req: Request) {
     // 사용자 프로필 가져오기
     const { data: userProfile, error: userProfileError } = await supabase
       .from('user_profile')
-      .select('email, bio, name')
+      .select('name, bio')
       .eq('id', id);
 
     if (userProfileError) throw userProfileError;
@@ -44,7 +44,7 @@ export async function GET(req: Request) {
   }
 }
 
-export async function POST(req: Request) {
+export async function PATCH(req: Request) {
   try {
     const { id, name, bio, urls } = await req.json();
 
@@ -83,6 +83,30 @@ export async function POST(req: Request) {
 
     if (insertUrlsError) {
       throw insertUrlsError;
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (err: any) {
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const { id, name } = await req.json();
+
+    if (!id || !name) {
+      return NextResponse.json(
+        { success: false, error: 'User ID and name are required' },
+        { status: 400 },
+      );
+    }
+
+    // user_profile 테이블에 새 프로필 생성
+    const { error: profileError } = await supabase.from('user_profile').insert({ id, name });
+
+    if (profileError) {
+      throw profileError;
     }
 
     return NextResponse.json({ success: true });
