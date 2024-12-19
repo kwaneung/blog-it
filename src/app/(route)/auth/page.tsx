@@ -28,7 +28,7 @@ const SignIn = () => {
           createUserProfile(session?.user?.id!, session?.user?.user_metadata?.full_name!);
         }
       });
-      router.push('/');
+      // router.push('/');
     }
   }, [session, router]);
 
