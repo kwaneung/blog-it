@@ -17,18 +17,14 @@ const SignIn = () => {
 
   useEffect(() => {
     if (session) {
-      console.log('session :: ', session);
-      console.log('fetchUserProfile start');
       fetchUserProfile(session?.user?.id!).then((data: UserProfileWithUrls) => {
-        console.log('end :: ', data);
         const { urls: _, ...profile } = data;
 
         if (Object.keys(profile).length === 0) {
-          console.log('프로필 없어 createUserProfile');
           createUserProfile(session?.user?.id!, session?.user?.user_metadata?.full_name!);
         }
       });
-      // router.push('/');
+      router.push('/');
     }
   }, [session, router]);
 
@@ -43,7 +39,7 @@ const SignIn = () => {
         providers={['kakao']}
         localization={{}}
         onlyThirdPartyProviders
-        redirectTo={'http://localhost:3000/auth'}
+        redirectTo={typeof window !== 'undefined' ? `${window.location.origin}/auth` : ''}
         // socialLayout="horizontal"
         // view="sign_in"
         // showLinks={false}
