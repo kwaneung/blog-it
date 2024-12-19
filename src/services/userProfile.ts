@@ -4,6 +4,7 @@ import { UserProfileWithUrls } from '@/types/profile';
  * 사용자 프로필 생성
  */
 export const createUserProfile = async (id: string, name: string) => {
+  console.log('===createUserProfile===');
   const response = await fetch('/api/user/profile', {
     method: 'POST',
     headers: {
@@ -11,6 +12,8 @@ export const createUserProfile = async (id: string, name: string) => {
     },
     body: JSON.stringify({ id, name }),
   });
+
+  console.log(response);
 
   if (!response.ok) {
     const errorData = await response.json();

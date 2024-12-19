@@ -93,6 +93,7 @@ export async function PATCH(req: Request) {
 
 export async function POST(req: Request) {
   try {
+    console.log('CREATE USER');
     const { id, name } = await req.json();
 
     if (!id || !name) {
@@ -104,6 +105,8 @@ export async function POST(req: Request) {
 
     // user_profile 테이블에 새 프로필 생성
     const { error: profileError } = await supabase.from('user_profile').insert({ id, name });
+
+    console.log(profileError);
 
     if (profileError) {
       throw profileError;

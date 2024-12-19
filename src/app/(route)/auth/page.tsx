@@ -17,10 +17,14 @@ const SignIn = () => {
 
   useEffect(() => {
     if (session) {
+      console.log('session :: ', session);
+      console.log('fetchUserProfile start');
       fetchUserProfile(session?.user?.id!).then((data: UserProfileWithUrls) => {
+        console.log('end :: ', data);
         const { urls: _, ...profile } = data;
 
         if (Object.keys(profile).length === 0) {
+          console.log('프로필 없어 createUserProfile');
           createUserProfile(session?.user?.id!, session?.user?.user_metadata?.full_name!);
         }
       });
