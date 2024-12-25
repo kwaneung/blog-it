@@ -6,6 +6,8 @@ import { z } from 'zod';
 import { columns } from '../_components/columns';
 import { DataTable } from '../_components/data-table';
 import { taskSchema } from './_data/schema';
+import { HydrationBoundary, dehydrate, QueryClient } from '@tanstack/react-query';
+import { fetchPosts } from '@/services/post';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
@@ -28,5 +30,16 @@ async function getTasks() {
 export default async function Posts() {
   const tasks = await getTasks();
 
-  return <DataTable data={tasks} columns={columns} type={'post'} />;
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['posts'],
+    queryFn: fetchPosts,
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <DataTable data={tasks} columns={columns} type={'post'} />
+    </HydrationBoundary>
+  );
 }

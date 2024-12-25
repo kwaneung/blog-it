@@ -27,6 +27,7 @@ import {
 import { DataTablePagination } from './data-table-pagination';
 import { DataTableToolbar } from './data-table-toolbar';
 import { useState } from 'react';
+import { usePosts } from '@/queries/usePost';
 
 interface IDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -39,6 +40,9 @@ export function DataTable<TData, TValue>({ columns, data, type }: IDataTableProp
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
+
+  const { data: posts } = usePosts();
+  console.log('posts :: ', posts);
 
   const table = useReactTable({
     data,
