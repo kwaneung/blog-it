@@ -28,24 +28,29 @@ import { DataTablePagination } from './data-table-pagination';
 import { DataTableToolbar } from './data-table-toolbar';
 import { useState } from 'react';
 import { usePosts } from '@/queries/usePost';
+import { useRouter } from 'next/navigation';
 
 interface IDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  // data: TData[];
   type: string;
 }
 
-export function DataTable<TData, TValue>({ columns, data, type }: IDataTableProps<TData, TValue>) {
+export function DataTable<TData extends { id: string }, TValue>({
+  columns,
+  // data,
+  type,
+}: IDataTableProps<TData, TValue>) {
+  const router = useRouter();
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const { data: posts } = usePosts();
-  console.log('posts :: ', posts);
 
   const table = useReactTable({
-    data,
+    data: posts || [],
     columns,
     state: {
       sorting,
@@ -90,7 +95,14 @@ export function DataTable<TData, TValue>({ columns, data, type }: IDataTableProp
             <TableBody>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && 'selected'}
+                    className="cursor-pointer"
+                    onClick={() => {
+                      router.push(`/posts/${row.original.id}`);
+                    }}
+                  >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
