@@ -13,3 +13,17 @@ export const fetchPosts = async () => {
   const data = await response.json();
   return data.data;
 };
+
+/**
+ * 단일 게시글 조회
+ */
+export const fetchPost = async (id: string) => {
+  const response = await fetch(`${getBaseUrl()}/api/post/${id}`);
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || '게시글 조회에 실패했습니다');
+  }
+  const data = await response.json();
+  return data.data;
+};

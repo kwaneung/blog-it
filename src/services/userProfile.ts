@@ -24,10 +24,10 @@ export const createUserProfile = async (id: string, name: string) => {
 /**
  * 사용자 프로필 조회
  */
-export const fetchUserProfile = async (id: string) => {
-  if (!id) throw new Error('User ID is required');
+export const fetchUserProfile = async (id?: string) => {
+  const url = id ? `${getBaseUrl()}/api/user/profile?id=${id}` : `${getBaseUrl()}/api/user/profile`;
 
-  const response = await fetch(`${getBaseUrl()}/api/user/profile?id=${id}`);
+  const response = await fetch(url);
 
   if (!response.ok) {
     const errorData = await response.json();
