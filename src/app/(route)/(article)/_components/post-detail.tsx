@@ -1,6 +1,5 @@
 'use client';
 
-import { usePosts } from '@/queries/usePost';
 import { IPost } from '@/types/post';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -13,7 +12,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { useUserProfileQuery } from '@/queries/useUserProfile';
 import { Textarea } from '@/components/ui/textarea';
 import { useForm } from 'react-hook-form';
 import {
@@ -25,7 +23,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { fetchUserProfile } from '@/services/userProfile';
 
 const DisplayTimeSince = ({ name, time }: { name: string; time: string }) => {
   const now = new Date().getTime();
@@ -86,13 +83,17 @@ const Separator = () => {
   );
 };
 
-export default function ArticleDetail({ id, type }: { id: string; type: string }) {
-  const { data: posts } = usePosts();
-  const filteredPost = posts?.find((post: IPost) => post.id === id);
-  const { data: userProfile } = useUserProfileQuery();
-
-  // const { Name: ownerName } = await fetchUserProfile(filteredPost?.user_id);
-
+export default function ArticleDetail({
+  post,
+  type,
+  ownerName,
+  myName,
+}: {
+  post: IPost;
+  type: string;
+  ownerName: string;
+  myName: string;
+}) {
   const form = useForm<{ content: string }>({
     defaultValues: {
       content: '',
@@ -108,40 +109,36 @@ export default function ArticleDetail({ id, type }: { id: string; type: string }
       <CardHeader className="pb-4">
         <CardTitle className="pb-2 flex flex-row items-center">
           <Badge className="mr-2">{type}</Badge>
-          <span>{filteredPost?.title}</span>
+          <span>{post?.title}</span>
         </CardTitle>
         <CardDescription className="flex flex-col">
           <span className="flex justify-between">
             <span className="flex space-x-4">
-              {filteredPost?.created_at && (
-                <DisplayTimeSince name="Asked" time={filteredPost.created_at} />
-              )}
-              {filteredPost?.updated_at && (
-                <DisplayTimeSince name="Modified" time={filteredPost.updated_at} />
-              )}
+              {post?.created_at && <DisplayTimeSince name="Asked" time={post.created_at} />}
+              {post?.updated_at && <DisplayTimeSince name="Modified" time={post.updated_at} />}
             </span>
-            <span>{`작성자 : `}</span>
+            <span>{`작성자 : ${ownerName}`}</span>
           </span>
           <span className="flex gap-2 justify-start">
             <span className="flex flex-row items-center">
               <Label htmlFor="label" className="mr-2">
                 Label
               </Label>
-              <span className="text-black">{filteredPost?.label}</span>
+              <span className="text-black">{post?.label}</span>
             </span>
             |
             <span className="flex flex-row items-center">
               <Label htmlFor="label" className="mr-2">
                 Status
               </Label>
-              <span className="text-black">{filteredPost?.status}</span>
+              <span className="text-black">{post?.status}</span>
             </span>
             |
             <span className="flex flex-row items-center">
               <Label htmlFor="label" className="mr-2">
                 Priority
               </Label>
-              <span className="text-black">{filteredPost?.priority}</span>
+              <span className="text-black">{post?.priority}</span>
             </span>
           </span>
         </CardDescription>
@@ -151,7 +148,7 @@ export default function ArticleDetail({ id, type }: { id: string; type: string }
           <Separator />
         </div>
         <div>
-          {filteredPost?.content.split('\n').map((line: string, i: number) => (
+          {post?.content.split('\n').map((line: string, i: number) => (
             <span key={i}>
               {line}
               <br />
@@ -169,12 +166,13 @@ export default function ArticleDetail({ id, type }: { id: string; type: string }
               name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{userProfile?.name}</FormLabel>
+                  <FormLabel>{myName || '로그인 필요'}</FormLabel>
                   <FormControl>
                     <Textarea
                       {...field}
                       placeholder="Content"
                       className="min-h-[100px] resize-none"
+                      disabled={!myName}
                     />
                   </FormControl>
                   <FormDescription>{`form description`}</FormDescription>
@@ -182,7 +180,9 @@ export default function ArticleDetail({ id, type }: { id: string; type: string }
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={!myName}>
+              Submit
+            </Button>
           </form>
         </Form>
       </CardContent>

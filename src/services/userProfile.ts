@@ -1,10 +1,11 @@
 import { UserProfileWithUrls } from '@/types/profile';
+import { getBaseUrl } from '@/utils/url';
 
 /**
  * 사용자 프로필 생성
  */
 export const createUserProfile = async (id: string, name: string) => {
-  const response = await fetch('/api/user/profile', {
+  const response = await fetch(`${getBaseUrl()}/api/user/profile`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -26,7 +27,7 @@ export const createUserProfile = async (id: string, name: string) => {
 export const fetchUserProfile = async (id: string) => {
   if (!id) throw new Error('User ID is required');
 
-  const response = await fetch(`/api/user/profile?id=${id}`);
+  const response = await fetch(`${getBaseUrl()}/api/user/profile?id=${id}`);
 
   if (!response.ok) {
     const errorData = await response.json();
@@ -41,7 +42,7 @@ export const fetchUserProfile = async (id: string) => {
  * 사용자 프로필 수정
  */
 export const updateUserProfile = async (id: string, data: UserProfileWithUrls) => {
-  const response = await fetch('/api/user/profile', {
+  const response = await fetch(`${getBaseUrl()}/api/user/profile`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
