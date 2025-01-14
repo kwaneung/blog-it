@@ -149,12 +149,12 @@ export default function ArticleDetail({
           <Separator />
         </div>
         <div>
-          {post?.content.split('\n').map((line: string, i: number) => (
+          {post?.content?.split('\n').map((line: string, i: number) => (
             <span key={i}>
               {line}
               <br />
             </span>
-          ))}
+          )) || '내용이 없습니다.'}
         </div>
         <div className="my-4">
           <Separator />
