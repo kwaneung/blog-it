@@ -22,7 +22,7 @@ import { useSession } from '@supabase/auth-helpers-react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserProfileQuery, useUserProfileMutation } from '@/queries/useUserProfile';
-import { IUserUrl } from '@/types/profile';
+import { IUserUrl, UserProfileWithUrls } from '@/types/profile';
 
 const profileFormSchema = z.object({
   username: z
@@ -50,14 +50,12 @@ const profileFormSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-export function ProfileForm() {
-  const { data: userProfile } = useUserProfileQuery();
-
+export function ProfileForm({ profile }: { profile: UserProfileWithUrls }) {
   // This can come from your database or API.
   const defaultValues: Partial<ProfileFormValues> = {
-    username: userProfile?.name,
-    bio: userProfile?.bio,
-    urls: userProfile?.urls,
+    username: profile?.name,
+    bio: profile?.bio,
+    urls: profile?.urls,
   };
 
   const form = useForm<ProfileFormValues>({
@@ -105,14 +103,14 @@ export function ProfileForm() {
 
   // userProfile이 로드된 후 form 필드에 값 설정
   useEffect(() => {
-    if (userProfile) {
+    if (profile) {
       reset({
-        username: userProfile.name,
-        bio: userProfile.bio,
-        urls: userProfile.urls.map((url: IUserUrl) => ({ value: url.value })),
+        username: profile.name,
+        bio: profile.bio,
+        urls: profile.urls.map((url: IUserUrl) => ({ value: url.value })),
       });
     }
-  }, [userProfile, reset]);
+  }, [profile, reset]);
 
   return (
     <Form {...form}>
