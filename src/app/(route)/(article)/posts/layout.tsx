@@ -1,6 +1,16 @@
+import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
+import { fetchPosts } from '@/services/post';
+
 export default async function ArticleLayout({ children }: { children: React.ReactNode }) {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['posts'],
+    queryFn: fetchPosts,
+  });
+
   return (
-    <>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
         <div className="flex items-center justify-between space-y-2">
           <div>
@@ -10,6 +20,6 @@ export default async function ArticleLayout({ children }: { children: React.Reac
         </div>
         {children}
       </div>
-    </>
+    </HydrationBoundary>
   );
 }

@@ -23,6 +23,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { useUserProfileQuery } from '@/queries/useUserProfile';
 
 const DisplayTimeSince = ({ name, time }: { name: string; time: string }) => {
   const now = new Date().getTime();
@@ -87,13 +88,13 @@ export default function ArticleDetail({
   post,
   type,
   ownerName,
-  myName,
 }: {
   post: IPost;
   type: string;
   ownerName: string;
-  myName: string;
 }) {
+  const { data: userProfile } = useUserProfileQuery();
+
   const form = useForm<{ content: string }>({
     defaultValues: {
       content: '',
@@ -166,13 +167,13 @@ export default function ArticleDetail({
               name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{myName || '로그인 필요'}</FormLabel>
+                  <FormLabel>{userProfile?.name || '로그인 필요'}</FormLabel>
                   <FormControl>
                     <Textarea
                       {...field}
                       placeholder="Content"
                       className="min-h-[100px] resize-none"
-                      disabled={!myName}
+                      disabled={!userProfile?.name}
                     />
                   </FormControl>
                   <FormDescription>{`form description`}</FormDescription>
@@ -180,7 +181,7 @@ export default function ArticleDetail({
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={!myName}>
+            <Button type="submit" disabled={!userProfile?.name}>
               Submit
             </Button>
           </form>
