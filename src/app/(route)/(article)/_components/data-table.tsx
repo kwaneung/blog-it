@@ -26,7 +26,7 @@ import {
 
 import { DataTablePagination } from './data-table-pagination';
 import { DataTableToolbar } from './data-table-toolbar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePosts } from '@/queries/usePost';
 import { useRouter } from 'next/navigation';
 

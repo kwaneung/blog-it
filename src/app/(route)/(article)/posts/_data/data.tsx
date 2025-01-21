@@ -9,6 +9,17 @@ import {
   StopwatchIcon,
 } from '@radix-ui/react-icons';
 
+export const types = [
+  {
+    value: 'post',
+    label: 'Post',
+  },
+  {
+    value: 'question',
+    label: 'Question',
+  },
+];
+
 export const labels = [
   {
     value: 'bug',

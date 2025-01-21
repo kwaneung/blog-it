@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { DataTableViewOptions } from './data-table-view-options';
 
-import { priorities, statuses } from '../posts/_data/data';
+import { priorities, statuses, types } from '../posts/_data/data';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
 import Link from 'next/link';
 
@@ -28,6 +28,9 @@ export function DataTableToolbar<TData>({ table, type }: IDataTableToolbarProps<
           onChange={(event) => table.getColumn('title')?.setFilterValue(event.target.value)}
           className="h-8 w-[150px] lg:w-[250px]"
         />
+        {table.getColumn('type') && (
+          <DataTableFacetedFilter column={table.getColumn('type')} title="Type" options={types} />
+        )}
         {table.getColumn('status') && (
           <DataTableFacetedFilter
             column={table.getColumn('status')}

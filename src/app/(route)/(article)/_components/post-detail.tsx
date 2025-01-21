@@ -85,15 +85,7 @@ const Separator = () => {
   );
 };
 
-export default function ArticleDetail({
-  post,
-  type,
-  ownerName,
-}: {
-  post: IPost;
-  type: string;
-  ownerName: string;
-}) {
+export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerName: string }) {
   const { data: userProfile } = useUserProfileQuery();
 
   const form = useForm<{ content: string }>({
@@ -134,7 +126,7 @@ export default function ArticleDetail({
     <Card>
       <CardHeader className="pb-4">
         <CardTitle className="pb-2 flex flex-row items-center">
-          <Badge className="mr-2">{type}</Badge>
+          <Badge className="mr-2">{post.type}</Badge>
           <span>{post?.title}</span>
         </CardTitle>
         <CardDescription className="flex flex-col">

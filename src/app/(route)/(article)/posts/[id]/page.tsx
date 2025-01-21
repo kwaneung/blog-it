@@ -9,5 +9,5 @@ export default async function PostDetail({ params }: { params: IPost }) {
 
   const { name: ownerName } = await fetchUserProfile(filteredPost?.user_id);
 
-  return <ArticleDetail post={filteredPost} type={'posts'} ownerName={ownerName} />;
+  return <ArticleDetail post={filteredPost} ownerName={ownerName} />;
 }
