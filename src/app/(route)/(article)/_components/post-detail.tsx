@@ -24,6 +24,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { useUserProfileQuery } from '@/queries/useUserProfile';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const DisplayTimeSince = ({ name, time }: { name: string; time: string }) => {
   const now = new Date().getTime();
@@ -105,6 +106,30 @@ export default function ArticleDetail({
     console.log('input comment :: ', data.content);
   };
 
+  const dummyComments = [
+    {
+      user_id: '1',
+      avatar_url: 'https://picsum.photos/200',
+      ownerName: '김관응',
+      content: '첫번째 코멘트',
+      created_at: '2024-01-01',
+    },
+    {
+      user_id: '2',
+      avatar_url: 'https://picsum.photos/201',
+      ownerName: '홍길동',
+      content: '두번째 코멘트',
+      created_at: '2024-01-02',
+    },
+    {
+      user_id: '3',
+      avatar_url: 'https://picsum.photos/202',
+      ownerName: '또치',
+      content: '세번째 코멘트',
+      created_at: '2024-01-03',
+    },
+  ];
+
   return (
     <Card>
       <CardHeader className="pb-4">
@@ -160,6 +185,29 @@ export default function ArticleDetail({
           <Separator />
         </div>
         <Label className="text-lg font-bold pb-4">Comment</Label>
+        {/* TODO 여기에 코멘트 리스트를 보여줘야해 */}
+        {dummyComments.map((comment) => (
+          <>
+            <div key={comment.user_id} className="my-4">
+              <div className="flex flex-row items-center gap-2">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage
+                    src={comment.avatar_url}
+                    alt="@shadcn"
+                    style={{
+                      objectFit: 'cover',
+                    }}
+                  />
+                  <AvatarFallback>SC</AvatarFallback>
+                </Avatar>
+                <span>{comment.ownerName}</span>
+                <span className="text-sm text-gray-500">{comment.created_at}</span>
+              </div>
+              <div className="my-2">{comment.content}</div>
+            </div>
+            <Separator />
+          </>
+        ))}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="pt-4 space-y-8">
             <FormField
