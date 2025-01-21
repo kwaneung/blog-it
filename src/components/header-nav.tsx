@@ -35,7 +35,7 @@ export function HeaderNav() {
         >
           Posts
         </Link>
-        <Link
+        {/* <Link
           href="/questions"
           className={cn(
             'transition-colors hover:text-foreground/80',
@@ -43,7 +43,7 @@ export function HeaderNav() {
           )}
         >
           Questions
-        </Link>
+        </Link> */}
         <Link
           href="/settings"
           className={cn(

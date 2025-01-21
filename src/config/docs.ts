@@ -16,10 +16,10 @@ export const docsConfig: IDocsConfig = {
       title: 'Posts',
       href: '/posts',
     },
-    {
-      title: 'Questions',
-      href: '/questions',
-    },
+    // {
+    //   title: 'Questions',
+    //   href: '/questions',
+    // },
     {
       title: 'Settings',
       href: '/settings',
