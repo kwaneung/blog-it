@@ -109,7 +109,7 @@ export function ProfileForm() {
       reset({
         username: userProfile.name,
         bio: userProfile.bio,
-        urls: userProfile.urls.map((url: IUserUrl) => ({ value: url.value })),
+        urls: userProfile.urls?.map((url: IUserUrl) => ({ value: url.value })),
       });
     }
   }, [userProfile, reset]);

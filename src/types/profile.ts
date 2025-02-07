@@ -1,6 +1,7 @@
 interface IUserProfile {
-  name: string;
-  bio: string;
+  name?: string;
+  bio?: string;
+  avatar_url?: string;
 }
 
 interface IUserEmail {
@@ -11,6 +12,6 @@ interface IUserUrl {
   value: string;
 }
 
-type UserProfileWithUrls = IUserProfile & { urls: IUserUrl[] };
+type UserProfileWithUrls = Partial<IUserProfile> & { urls?: IUserUrl[] };
 
 export type { IUserEmail, IUserProfile, IUserUrl, UserProfileWithUrls };

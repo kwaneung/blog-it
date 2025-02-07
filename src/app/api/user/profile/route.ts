@@ -46,43 +46,55 @@ export async function GET(req: Request) {
 
 export async function PATCH(req: Request) {
   try {
-    const { id, name, bio, urls } = await req.json();
+    const requestData = await req.json();
+    const { id } = requestData;
 
     if (!id) {
       return NextResponse.json({ success: false, error: 'User ID is required' }, { status: 400 });
     }
 
-    // user_profile 테이블 업데이트
-    const { error: userProfileError } = await supabase
-      .from('user_profile')
-      .update({ name, bio })
-      .eq('id', id);
+    // undefined가 아닌 값만 포함하여 업데이트 데이터 생성
+    const updateData = Object.fromEntries(
+      Object.entries(requestData)
+        .filter(([key]) => ['name', 'bio', 'avatar_url'].includes(key))
+        .filter(([_, value]) => value !== undefined),
+    );
 
-    if (userProfileError) {
-      throw userProfileError;
+    // 프로필 데이터가 있으면 업데이트
+    if (Object.keys(updateData).length > 0) {
+      const { error: userProfileError } = await supabase
+        .from('user_profile')
+        .update(updateData)
+        .eq('id', id);
+
+      if (userProfileError) {
+        throw userProfileError;
+      }
     }
 
-    // user_profile_url 테이블 업데이트 (기존 데이터 삭제 후 새로 추가)
-    const { error: deleteUrlsError } = await supabase
-      .from('user_profile_url')
-      .delete()
-      .eq('id', id);
+    // urls가 제공된 경우에만 URL 업데이트
+    if ('urls' in requestData) {
+      const { error: deleteUrlsError } = await supabase
+        .from('user_profile_url')
+        .delete()
+        .eq('id', id);
 
-    if (deleteUrlsError) {
-      throw deleteUrlsError;
-    }
+      if (deleteUrlsError) {
+        throw deleteUrlsError;
+      }
 
-    const urlInsertData = urls.map((url: { value: string }) => ({
-      id,
-      url: url.value,
-    }));
+      const urlInsertData = requestData.urls.map((url: { value: string }) => ({
+        id,
+        url: url.value,
+      }));
 
-    const { error: insertUrlsError } = await supabase
-      .from('user_profile_url')
-      .insert(urlInsertData);
+      const { error: insertUrlsError } = await supabase
+        .from('user_profile_url')
+        .insert(urlInsertData);
 
-    if (insertUrlsError) {
-      throw insertUrlsError;
+      if (insertUrlsError) {
+        throw insertUrlsError;
+      }
     }
 
     return NextResponse.json({ success: true });

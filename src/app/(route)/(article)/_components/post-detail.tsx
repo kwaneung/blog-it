@@ -25,7 +25,10 @@ import {
 } from '@/components/ui/form';
 import { useUserProfileQuery } from '@/queries/useUserProfile';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
+import { useSession } from '@supabase/auth-helpers-react';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useComments } from '@/queries/usePost';
 const DisplayTimeSince = ({ name, time }: { name: string; time: string }) => {
   const now = new Date().getTime();
   const targetTime = new Date(time).getTime();
@@ -85,40 +88,60 @@ const Separator = () => {
   );
 };
 
+const formSchema = z.object({
+  content: z.string().min(1, '댓글 내용을 입력해주세요'),
+});
+
+type FormValues = z.infer<typeof formSchema>;
+
 export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerName: string }) {
   const { data: userProfile } = useUserProfileQuery();
+  const session = useSession();
+  const { data: comments } = useComments(post.id);
 
-  const form = useForm<{ content: string }>({
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       content: '',
     },
   });
 
-  const onSubmit = (data: { content: string }) => {
+  const onSubmit = (data: FormValues) => {
     console.log('input comment :: ', data.content);
+
+    const userId = session?.user?.id;
+    console.log('userId :: ', userId);
+    const postId = post.id;
+    console.log('postId :: ', postId);
   };
 
   const dummyComments = [
     {
-      user_id: '1',
-      avatar_url: 'https://picsum.photos/200',
+      id: 'comment_1',
+      userId: '1',
+      postId: '1',
+      avatarUrl: 'https://picsum.photos/200',
       ownerName: '김관응',
       content: '첫번째 코멘트',
-      created_at: '2024-01-01',
+      createdAt: '2024-01-01',
     },
     {
-      user_id: '2',
-      avatar_url: 'https://picsum.photos/201',
+      id: 'comment_2',
+      userId: '2',
+      postId: '1',
+      avatarUrl: 'https://picsum.photos/201',
       ownerName: '홍길동',
       content: '두번째 코멘트',
-      created_at: '2024-01-02',
+      createdAt: '2024-01-02',
     },
     {
-      user_id: '3',
-      avatar_url: 'https://picsum.photos/202',
+      id: 'comment_3',
+      userId: '3',
+      postId: '1',
+      avatarUrl: 'https://picsum.photos/202',
       ownerName: '또치',
       content: '세번째 코멘트',
-      created_at: '2024-01-03',
+      createdAt: '2024-01-03',
     },
   ];
 
@@ -140,11 +163,19 @@ export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerN
           <span className="flex gap-2 justify-start">
             <span className="flex flex-row items-center">
               <Label htmlFor="label" className="mr-2">
+                Post Id
+              </Label>
+              <span className="text-black">{post?.id}</span>
+            </span>
+            |
+            <span className="flex flex-row items-center">
+              <Label htmlFor="label" className="mr-2">
                 Label
               </Label>
               <span className="text-black">{post?.label}</span>
             </span>
-            |
+          </span>
+          <span className="flex gap-2 justify-start">
             <span className="flex flex-row items-center">
               <Label htmlFor="label" className="mr-2">
                 Status
@@ -177,14 +208,13 @@ export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerN
           <Separator />
         </div>
         <Label className="text-lg font-bold pb-4">Comment</Label>
-        {/* TODO 여기에 코멘트 리스트를 보여줘야해 */}
-        {dummyComments.map((comment) => (
-          <>
-            <div key={comment.user_id} className="my-4">
+        {comments?.map((comment: any) => (
+          <div key={comment.id}>
+            <div className="my-4">
               <div className="flex flex-row items-center gap-2">
                 <Avatar className="h-8 w-8">
                   <AvatarImage
-                    src={comment.avatar_url}
+                    src={comment.avatarUrl}
                     alt="@shadcn"
                     style={{
                       objectFit: 'cover',
@@ -193,12 +223,12 @@ export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerN
                   <AvatarFallback>SC</AvatarFallback>
                 </Avatar>
                 <span>{comment.ownerName}</span>
-                <span className="text-sm text-gray-500">{comment.created_at}</span>
+                <span className="text-sm text-gray-500">{comment.createdAt}</span>
               </div>
               <div className="my-2">{comment.content}</div>
             </div>
             <Separator />
-          </>
+          </div>
         ))}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="pt-4 space-y-8">
@@ -207,7 +237,9 @@ export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerN
               name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{userProfile?.name || '로그인 필요'}</FormLabel>
+                  <FormLabel className="text-foreground">
+                    {userProfile?.name || '로그인 필요'}
+                  </FormLabel>
                   <FormControl>
                     <Textarea
                       {...field}

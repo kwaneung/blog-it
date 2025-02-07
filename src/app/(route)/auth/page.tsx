@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
-import { fetchUserProfile, createUserProfile } from '@/services/userProfile';
+import { fetchUserProfile, createUserProfile, updateUserProfile } from '@/services/userProfile';
 import { UserProfileWithUrls } from '@/types/profile';
 
 const SignIn = () => {
@@ -24,7 +24,12 @@ const SignIn = () => {
           createUserProfile(session?.user?.id!, session?.user?.user_metadata?.full_name!);
         }
       });
-      router.push('/');
+
+      updateUserProfile(session?.user?.id!, {
+        avatar_url: session?.user?.user_metadata?.avatar_url,
+      }).then(() => {
+        router.push('/');
+      });
     }
   }, [session, router]);
 
