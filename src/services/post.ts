@@ -36,8 +36,8 @@ export const fetchComments = async (postId?: string) => {
       const userProfile = await fetchUserProfile(comment.user_id);
       return {
         ...comment,
-        avatar_url: userProfile.avatar_url,
-        user_name: userProfile.name,
+        avatarUrl: userProfile.avatar_url,
+        userName: userProfile.name,
       };
     }),
   );

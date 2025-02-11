@@ -224,7 +224,7 @@ export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerN
                   />
                   <AvatarFallback>SC</AvatarFallback>
                 </Avatar>
-                <span>{comment.ownerName}</span>
+                <span>{comment.userName}</span>
                 <span className="text-sm text-gray-500">{comment.createdAt}</span>
               </div>
               <div className="my-2">{comment.content}</div>
