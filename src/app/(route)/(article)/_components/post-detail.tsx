@@ -98,6 +98,7 @@ export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerN
   const { data: userProfile } = useUserProfileQuery();
   const session = useSession();
   const { data: comments } = useComments(post.id);
+  console.log('comments :: ', comments);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -208,6 +209,7 @@ export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerN
           <Separator />
         </div>
         <Label className="text-lg font-bold pb-4">Comment</Label>
+        {/* TODO : comment 타입 추가 필요 */}
         {comments?.map((comment: any) => (
           <div key={comment.id}>
             <div className="my-4">

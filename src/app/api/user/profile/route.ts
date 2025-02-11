@@ -18,7 +18,7 @@ export async function GET(req: Request) {
     // 사용자 프로필 가져오기
     const { data: userProfile, error: userProfileError } = await supabase
       .from('user_profile')
-      .select('name, bio')
+      .select('name, bio, avatar_url')
       .eq('id', id);
 
     if (userProfileError) throw userProfileError;
