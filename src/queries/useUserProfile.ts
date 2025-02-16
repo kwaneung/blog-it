@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from '@supabase/auth-helpers-react';
 import { UserProfileWithUrls } from '@/types/profile';
 import { updateUserProfile } from '@/services/userProfile';
@@ -20,6 +20,7 @@ export const useUserProfileQuery = () => {
 export const useUserProfileMutation = () => {
   const session = useSession();
   const id = session?.user?.id;
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (data: UserProfileWithUrls) => updateUserProfile(id!, data),
@@ -28,11 +29,16 @@ export const useUserProfileMutation = () => {
     },
     onSuccess: () => {
       console.log('User profile updated successfully');
+      queryClient.invalidateQueries({ queryKey: ['user_profile', id] });
     },
   });
 };
 
 export const useCreateUserProfileMutation = () => {
+  const session = useSession();
+  const id = session?.user?.id;
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({ id, name }: { id: string; name: string }) => createUserProfile(id, name),
     onError: (error) => {
@@ -40,6 +46,7 @@ export const useCreateUserProfileMutation = () => {
     },
     onSuccess: () => {
       console.log('User profile created successfully');
+      queryClient.invalidateQueries({ queryKey: ['user_profile', id] });
     },
   });
 };
