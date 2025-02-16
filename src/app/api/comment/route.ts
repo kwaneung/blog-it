@@ -26,3 +26,35 @@ export async function GET(request: Request) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
 }
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const { content, postId, userId } = body;
+
+    if (!content || !postId || !userId) {
+      return NextResponse.json(
+        { success: false, error: '필수 필드가 누락되었습니다.' },
+        { status: 400 },
+      );
+    }
+
+    const { data, error } = await supabase
+      .from('comment')
+      .insert([
+        {
+          content,
+          post_id: postId,
+          user_id: userId,
+          created_at: new Date().toISOString(),
+        },
+      ])
+      .select();
+
+    if (error) throw error;
+
+    return NextResponse.json({ success: true, data });
+  } catch (err: any) {
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+  }
+}

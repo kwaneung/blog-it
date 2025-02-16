@@ -44,3 +44,23 @@ export const fetchComments = async (postId?: string) => {
 
   return commentsWithUserProfile;
 };
+
+/**
+ * 댓글 추가
+ */
+export const addComment = async (postId: string, userId: string, content: string) => {
+  const response = await fetch(`${getBaseUrl()}/api/comment`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ postId, userId, content }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || '댓글 작성에 실패했습니다');
+  }
+
+  return await response.json();
+};

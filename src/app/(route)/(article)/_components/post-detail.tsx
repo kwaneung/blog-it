@@ -28,7 +28,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useSession } from '@supabase/auth-helpers-react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useComments } from '@/queries/usePost';
+import { useComments, useAddComment } from '@/queries/usePost';
 const DisplayTimeSince = ({ name, time }: { name: string; time: string }) => {
   const now = new Date().getTime();
   const targetTime = new Date(time).getTime();
@@ -98,7 +98,7 @@ export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerN
   const { data: userProfile } = useUserProfileQuery();
   const session = useSession();
   const { data: comments } = useComments(post.id);
-  console.log('comments :: ', comments);
+  const addCommentMutation = useAddComment();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -107,13 +107,22 @@ export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerN
     },
   });
 
-  const onSubmit = (data: FormValues) => {
-    console.log('input comment :: ', data.content);
-
+  const onSubmit = async (data: FormValues) => {
     const userId = session?.user?.id;
-    console.log('userId :: ', userId);
-    const postId = post.id;
-    console.log('postId :: ', postId);
+    if (!userId) return;
+
+    try {
+      await addCommentMutation.mutateAsync({
+        postId: post.id,
+        userId,
+        content: data.content,
+      });
+
+      // 폼 초기화
+      form.reset();
+    } catch (error) {
+      console.error('댓글 작성 실패:', error);
+    }
   };
 
   return (
