@@ -69,8 +69,8 @@ const DisplayTimeSince = ({ name, time }: { name: string; time: string }) => {
 
   return (
     <span className="flex items-center">
-      <span className="text-sm text-gray-500 mr-2">{name}</span>
-      <span className="text-black">{getTimeString()}</span>
+      <span className="text-sm text-muted-foreground mr-2">{name}</span>
+      <span className="text-foreground">{getTimeString()}</span>
     </span>
   );
 };
@@ -116,36 +116,6 @@ export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerN
     console.log('postId :: ', postId);
   };
 
-  const dummyComments = [
-    {
-      id: 'comment_1',
-      userId: '1',
-      postId: '1',
-      avatarUrl: 'https://picsum.photos/200',
-      ownerName: '김관응',
-      content: '첫번째 코멘트',
-      createdAt: '2024-01-01',
-    },
-    {
-      id: 'comment_2',
-      userId: '2',
-      postId: '1',
-      avatarUrl: 'https://picsum.photos/201',
-      ownerName: '홍길동',
-      content: '두번째 코멘트',
-      createdAt: '2024-01-02',
-    },
-    {
-      id: 'comment_3',
-      userId: '3',
-      postId: '1',
-      avatarUrl: 'https://picsum.photos/202',
-      ownerName: '또치',
-      content: '세번째 코멘트',
-      createdAt: '2024-01-03',
-    },
-  ];
-
   return (
     <Card>
       <CardHeader className="pb-4">
@@ -159,21 +129,21 @@ export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerN
               {post?.created_at && <DisplayTimeSince name="Asked" time={post.created_at} />}
               {post?.updated_at && <DisplayTimeSince name="Modified" time={post.updated_at} />}
             </span>
-            <span>{`작성자 : ${ownerName}`}</span>
+            <span className="text-foreground">{`작성자 : ${ownerName}`}</span>
           </span>
           <span className="flex gap-2 justify-start">
             <span className="flex flex-row items-center">
               <Label htmlFor="label" className="mr-2">
                 Post Id
               </Label>
-              <span className="text-black">{post?.id}</span>
+              <span className="text-foreground">{post?.id}</span>
             </span>
             |
             <span className="flex flex-row items-center">
               <Label htmlFor="label" className="mr-2">
                 Label
               </Label>
-              <span className="text-black">{post?.label}</span>
+              <span className="text-foreground">{post?.label}</span>
             </span>
           </span>
           <span className="flex gap-2 justify-start">
@@ -181,14 +151,14 @@ export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerN
               <Label htmlFor="label" className="mr-2">
                 Status
               </Label>
-              <span className="text-black">{post?.status}</span>
+              <span className="text-foreground">{post?.status}</span>
             </span>
             |
             <span className="flex flex-row items-center">
               <Label htmlFor="label" className="mr-2">
                 Priority
               </Label>
-              <span className="text-black">{post?.priority}</span>
+              <span className="text-foreground">{post?.priority}</span>
             </span>
           </span>
         </CardDescription>
