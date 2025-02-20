@@ -17,7 +17,6 @@ import { useRouter } from 'next/navigation';
 export function UserNav() {
   const { supabaseClient } = useSessionContext();
   const user = useUser();
-  console.log('avatar_url :: ', user?.user_metadata.avatar_url);
   const router = useRouter();
   return (
     <DropdownMenu>
@@ -25,7 +24,7 @@ export function UserNav() {
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
             <AvatarImage
-              src={user?.user_metadata.avatar_url}
+              src={user?.user_metadata.avatar_url?.replace('http://', 'https://') || ''}
               alt="@shadcn"
               style={{
                 objectFit: 'cover',
