@@ -192,19 +192,29 @@ export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerN
         {comments?.map((comment: any) => (
           <div key={comment.id}>
             <div className="my-4">
-              <div className="flex flex-row items-center gap-2">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage
-                    src={comment.avatarUrl}
-                    alt="@shadcn"
-                    style={{
-                      objectFit: 'cover',
-                    }}
-                  />
-                  <AvatarFallback>SC</AvatarFallback>
-                </Avatar>
-                <span>{comment.userName}</span>
-                <span className="text-sm text-gray-500">{comment.createdAt}</span>
+              <div className="flex flex-row items-center justify-between">
+                <div className="flex flex-row items-center gap-2">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage
+                      src={comment.avatarUrl}
+                      alt="@shadcn"
+                      style={{
+                        objectFit: 'cover',
+                      }}
+                    />
+                    <AvatarFallback>SC</AvatarFallback>
+                  </Avatar>
+                  <span>{comment.userName}</span>
+                  <span className="text-sm text-gray-500">{comment.createdAt}</span>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" className="w-16 h-8">
+                    수정
+                  </Button>
+                  <Button variant="destructive" size="sm" className="w-16 h-8">
+                    삭제
+                  </Button>
+                </div>
               </div>
               <div className="my-2">{comment.content}</div>
             </div>
