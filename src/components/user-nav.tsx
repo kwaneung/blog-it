@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation';
 export function UserNav() {
   const { supabaseClient } = useSessionContext();
   const user = useUser();
+  console.log('avatar_url :: ', user?.user_metadata.avatar_url);
   const router = useRouter();
   return (
     <DropdownMenu>
