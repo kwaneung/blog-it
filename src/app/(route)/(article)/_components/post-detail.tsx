@@ -195,7 +195,7 @@ export default function ArticleDetail({ post, ownerName }: { post: IPost; ownerN
               <div className="flex flex-row items-center gap-2">
                 <Avatar className="h-8 w-8">
                   <AvatarImage
-                    src={comment.avatarUrl?.replace('http://', 'https://') || ''}
+                    src={comment.avatarUrl}
                     alt="@shadcn"
                     style={{
                       objectFit: 'cover',

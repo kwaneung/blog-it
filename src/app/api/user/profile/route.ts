@@ -57,7 +57,11 @@ export async function PATCH(req: Request) {
     const updateData = Object.fromEntries(
       Object.entries(requestData)
         .filter(([key]) => ['name', 'bio', 'avatar_url'].includes(key))
-        .filter(([_, value]) => value !== undefined),
+        .filter(([_, value]) => value !== undefined)
+        .map(([key, value]) => [
+          key,
+          key === 'avatar_url' ? (value as string)?.replace('http://', 'https://') || '' : value,
+        ]),
     );
 
     // 프로필 데이터가 있으면 업데이트
